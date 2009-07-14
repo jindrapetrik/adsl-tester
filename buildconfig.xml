@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="buildconfig" basedir=".">
+    <property name="PROJECTNAME" value="O2ModemTester"/>
+    <property name="JARFILENAME" value="O2ModemTester"/>
+    <property name="MAINCLASS" value="model.Main"/>
+    <property name="MAINCLASSPATH" value="model/Main"/>
+
+    <property name="DEBUGMODE" value="YES"/>
+
+    <property name="SOURCEDIR" value="src"/>
+    <property name="TESTDIR" value="test"/>
+    <property name="TESTRESULTSDIR" value="testresults"/>
+    <property name="DISTRIBUTIONDIR" value="dist"/>
+    <property name="COMPILEDIR" value="build/classes"/>
+    <property name="COMPILETESTSDIR" value="build/test"/>
+    <property name="LIBRARIESDIR" value="lib"/>
+    <property name="DISTLIBRARIESDIR" value="lib"/>
+    <property name="JAVADOCDIR" value="javadoc"/>
+</project>

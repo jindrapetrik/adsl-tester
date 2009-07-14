@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="O2ModemTester" default="run" basedir=".">
+    <description>Builds, tests, and runs the project</description>
+    <import file="buildconfig.xml"/>
+    <property name="DISTLIBRARIESFULLDIR" value="${DISTRIBUTIONDIR}/${DISTLIBRARIESDIR}"/>
+    <property name="JAVADOCFULLDIR" value="${DISTRIBUTIONDIR}/${JAVADOCDIR}"/>
+
+    <available property="USE_EVE"
+               file="${LIBRARIESDIR}/eve.jar"
+               />
+
+    <available property="DOTESTS"
+               file="${TESTDIR}"
+               />
+
+    <!--<available property="EVEVM" file="D:\Dokumenty\Programovani\JavaSE\_Eve\Eve\JavaEve.exe"/>
+    -->
+
+    <target name="compile">        
+        <delete dir="${COMPILEDIR}"/>
+        <mkdir dir="${COMPILEDIR}"/>
+        <javac srcdir="${SOURCEDIR}" destdir="${COMPILEDIR}" includes="**/*.java">
+            <classpath>
+                <fileset dir="${LIBRARIESDIR}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="compiledebug">
+        <!--<delete dir="${COMPILEDIR}"/>-->
+        <mkdir dir="${COMPILEDIR}"/>
+        <copy todir="${COMPILEDIR}">
+            <fileset dir="${SOURCEDIR}" includes="**/*.java"/>
+        </copy>
+        <javac fork="true" debug="true" debuglevel="lines,vars,source" srcdir="${SOURCEDIR}" destdir="${COMPILEDIR}" includes="**/*.java">
+            <classpath>
+                <fileset dir="${LIBRARIESDIR}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+        
+
+    </target>
+
+    <target name="build" depends="builddebug,buildnodebug">
+        
+    </target>
+    <target name="builddebug" if="DEBUGMODE">
+        <antcall target="builddebugforce"/>
+    </target>
+    <target name="buildnodebug" unless="DEBUGMODE">
+        <antcall target="compile"/>
+        <mkdir dir="${DISTRIBUTIONDIR}"/>
+        <delete dir="${DISTLIBRARIESFULLDIR}"/>
+        <mkdir dir="${DISTLIBRARIESFULLDIR}"/>
+        <copy todir="${DISTLIBRARIESFULLDIR}">
+            <fileset dir="${LIBRARIESDIR}" includes="**/*.jar"/>
+        </copy>
+        <pathconvert pathsep=" " property="manifestClassPath">
+            <fileset dir="${DISTRIBUTIONDIR}" includes="${DISTLIBRARIESDIR}/**/*.*"/>
+            <chainedmapper>
+                <flattenmapper/>
+                <globmapper from="*" to="${DISTLIBRARIESDIR}/*"/>
+            </chainedmapper>
+        </pathconvert>
+        
+        <jar destfile="${DISTRIBUTIONDIR}/${JARFILENAME}.jar" basedir="${COMPILEDIR}">
+            <manifest>
+                <attribute name="Main-Class" value="${MAINCLASS}"/>
+                <attribute name="Class-Path" value="${manifestClassPath}"/>
+            </manifest>
+        </jar>
+        
+    </target>
+
+    <target name="builddebugforce" depends="compiledebug">
+        <mkdir dir="${DISTRIBUTIONDIR}"/>        
+        <mkdir dir="${DISTLIBRARIESFULLDIR}"/>
+        <copy todir="${DISTLIBRARIESFULLDIR}">
+            <fileset dir="${LIBRARIESDIR}" includes="**/*.jar"/>
+        </copy>
+        <pathconvert pathsep=" " property="manifestClassPath">
+            <fileset dir="${DISTRIBUTIONDIR}" includes="${DISTLIBRARIESDIR}/**/*.*"/>
+            <chainedmapper>
+                <flattenmapper/>
+                <globmapper from="*" to="${DISTLIBRARIESDIR}/*"/>
+            </chainedmapper>
+        </pathconvert>
+
+        <jar destfile="${DISTRIBUTIONDIR}/${JARFILENAME}.jar" basedir="${COMPILEDIR}">
+            <manifest>
+                <attribute name="Main-Class" value="${MAINCLASS}"/>
+                <attribute name="Class-Path" value="${manifestClassPath}"/>
+            </manifest>
+        </jar>
+
+    </target>
+
+    <target name="runjava" unless="USE_EVE">
+        <antcall target="build"/>
+        <java jar="${DISTRIBUTIONDIR}/${JARFILENAME}.jar"/>
+    </target>
+
+    
+
+    <target name="runevejvm" unless="EVEVM">
+        <antcall target="build"/>
+        <echo message="Running EVE in JVM"/>
+        <java classname="Eve" fork="true">
+            <classpath>
+                <fileset dir="." includes="${DISTLIBRARIESFULLDIR}/**/*.jar"/>
+                <fileset file="${DISTRIBUTIONDIR}/${JARFILENAME}.jar"/>
+            </classpath>
+            <arg value="${MAINCLASS}"/>
+        </java>
+    </target>
+
+    <target name="runevevm" if="EVEVM">
+        <antcall target="compile"/>
+        <echo message="Running EVE in EVEVM"/>
+        <path id="compiledClasses">
+            <fileset file="${COMPILEDIR}/${MAINCLASSPATH}.class"/>
+        </path>
+        <exec executable="${EVEVM}">
+            <arg value="-cp"/>
+            <arg pathref="compiledClasses"/>
+            <arg value="${MAINCLASS}"/>
+        </exec>
+    </target>
+
+    <target name="runeve" if="USE_EVE">
+        <antcall target="runevevm"/>
+        <antcall target="runevejvm"/>
+    </target>
+
+    <target name="run" depends="runjava,runeve">
+    </target>
+    <target name="javadoc">
+        <mkdir dir="${DISTRIBUTIONDIR}"/>
+        <javadoc sourcepath="${SOURCEDIR}" destdir="${JAVADOCFULLDIR}" windowtitle="${PROJECTNAME}">
+            <fileset dir="${SOURCEDIR}" includes="**/*.java"/>
+            <classpath>
+                <fileset dir="${LIBRARIESDIR}" includes="**/*.jar"/>
+            </classpath>
+        </javadoc>
+    </target>
+    <target name="clean">
+        <delete dir="${DISTRIBUTIONDIR}"/>
+        <delete dir="${COMPILEDIR}"/>
+    </target>
+    <target name="test" depends="builddebugforce" if="DOTESTS">
+        <mkdir dir="${TESTRESULTSDIR}"/>
+        <mkdir dir="${COMPILETESTSDIR}"/>
+        <javac debug="true" debuglevel="lines,vars,source" srcdir="${TESTDIR}" destdir="${COMPILETESTSDIR}" includes="**/*.java">
+            <classpath>
+                <fileset dir="${LIBRARIESDIR}" includes="**/*.jar"/>
+                <fileset file="${DISTRIBUTIONDIR}/${JARFILENAME}.jar"/>
+            </classpath>
+        </javac>
+        <copy todir="${COMPILETESTSDIR}">
+            <fileset dir="${TESTDIR}" includes="**/*.java"/>
+        </copy>
+        <junit errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true">
+       
+            <batchtest todir="${TESTRESULTSDIR}">
+                <fileset dir="${TESTDIR}" includes="**/*.java"/>
+            </batchtest>
+            <formatter type="plain"/>
+            <classpath>
+                <pathelement location="${COMPILETESTSDIR}"/>
+                <pathelement path="${COMPILEDIR}"/>
+                <fileset dir="${LIBRARIESDIR}" includes="**/*.jar"/>
+            </classpath>
+            
+            <syspropertyset>
+                <propertyref prefix="test-sys-prop."/>
+                <mapper from="test-sys-prop.*" to="*" type="glob"/>
+            </syspropertyset>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+            <!--<jvmarg line="${run.jvmargs}"/>-->
+           
+        </junit>
+    </target>
+</project>
