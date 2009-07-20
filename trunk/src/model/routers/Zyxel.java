@@ -19,7 +19,7 @@ public class Zyxel extends MeasuredRouter {
         return "Zyxel";
     }
 
-
+    
 
     @Override
     public void dofirstMeasure() throws IOException {
@@ -212,6 +212,7 @@ public class Zyxel extends MeasuredRouter {
                 readByte();
                 sendLine("8");
                 readLines();
+         dofirstMeasure();
     }
 
     @Override

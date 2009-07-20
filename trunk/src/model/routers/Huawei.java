@@ -20,6 +20,13 @@ public class Huawei extends MeasuredRouter {
         return "Huawei";
     }
 
+    @Override
+    public void login() throws IOException {
+        super.login();
+        dofirstMeasure();
+    }
+
+
 
     @Override
     public void dofirstMeasure() throws IOException{

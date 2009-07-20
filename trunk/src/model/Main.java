@@ -124,20 +124,6 @@ public class Main {
         timer = null;
         timer = new Timer();
         int delay = scanInterval * 1000;
-        try {
-            Main.router.login();
-        } catch (IOException ex) {
-            Main.errorConnecting();
-            return;
-        }
-        try{
-            Main.router.dofirstMeasure();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Main.router.disconnect();
-            Main.errorConnecting();
-            return;
-        }
         
         timer.schedule(new MeasureTask(), 1, delay);
 
