@@ -42,6 +42,12 @@ public class Main {
         Main.debugMode = debugMode;
     }
 
+    public static boolean isDebugMode() {
+        return debugMode;
+    }
+
+    
+
     public static void loadConfig(){
         File settingsFile=new File("o2tester.cfg");
         if(settingsFile.exists()){

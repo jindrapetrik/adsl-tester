@@ -110,12 +110,12 @@ public abstract class Router {
      * @return ArrayList of all lines
      */
     public ArrayList<String> readLinesList() throws IOException{
-        //System.out.println("readLinesList start");        
+        //ProgramLog.println("readLinesList start");
         String s="";
         ArrayList<String> ret=new ArrayList<String>();
         if(!connect()) return ret;
         while((s=readLine())!=null){
-            //System.out.println("added 1 line");
+            //ProgramLog.println("added 1 line");
             ret.add(s);
         }
         return ret;
@@ -126,11 +126,11 @@ public abstract class Router {
      * @return Array of all lines
      */
     public String[] readLines() throws IOException{
-        //System.out.println("readLines start");
+        //ProgramLog.println("readLines start");
         if(!connect()) return new String[0];
-        //System.out.println("Calling readLinesList");
+        //ProgramLog.println("Calling readLinesList");
         ArrayList<String> list=readLinesList();
-        //System.out.println("Converting list to array");
+        //ProgramLog.println("Converting list to array");
         if(list.size()==0){
             return null;
         }
@@ -170,7 +170,7 @@ public abstract class Router {
      * @return Line which was read
      */
     public String readLine() throws IOException {
-        //System.out.println("readLine start");
+        //ProgramLog.println("readLine start");
         if(!connect()) return "";
         try {
             boolean end = false;
@@ -178,7 +178,7 @@ public abstract class Router {
             int prev=0;
             String line="";
             if(debugMode)
-            System.out.print("<\"");
+            ProgramLog.print("<\"");
             do {
                 i = is.read();
                 if((i!='\n')&&(i!='\r')){
@@ -186,23 +186,23 @@ public abstract class Router {
                 }
                 if((i=='\n')&&(prev=='\r')){
                     if(debugMode)
-                    System.out.println("\"");
+                    ProgramLog.println("\"");
                     return line;
                 }
                 if(checkRouterHeader(line)){
                     if(debugMode)
-                    System.out.println(((char)i)+"\"");
+                    ProgramLog.println(((char)i)+"\"");
                     return null;
                 }
                 prev=i;
                 if(i==-1) break;
                 if(debugMode)
-                  System.out.print((char)i);
+                  ProgramLog.print(""+(char)i);
             } while (!end);
         }catch(SocketTimeoutException ex){
         }
         if(debugMode)
-        System.out.println("\"");
+        ProgramLog.println("\"");
         return null;
     }
 
@@ -213,7 +213,7 @@ public abstract class Router {
      */
     public boolean sendLine(String line) throws IOException{
         if(debugMode)
-        System.out.println(">\""+line+"\"");
+        ProgramLog.println(">\""+line+"\"");
         if(!connect()) return false;
         os.write((line + "\r\n").getBytes());
         return true;
@@ -237,12 +237,12 @@ public abstract class Router {
                 }
                 if((i=='\n')&&(prev=='\r')){
                     if(debugMode)
-                    System.out.println("Router header not found");
+                    ProgramLog.println("Router header not found");
                     return false;
                 }
                 if(line.equals(str)){
                     if(debugMode)
-                    System.out.println("Router header found");
+                    ProgramLog.println("Router header found");
                     return true;
                 }
                 prev=i;
@@ -270,12 +270,12 @@ public abstract class Router {
                 }
                 /*if((i=='\n')&&(prev=='\r')){
                     if(debugMode)
-                      System.out.println("Read till char - EOL:"+line);
+                      ProgramLog.println("Read till char - EOL:"+line);
                     return line;
                 }*/
                 if(i==c){
                     if(debugMode){
-                        System.out.println("<"+line);
+                        ProgramLog.println("<"+line);
                     }
                     return line;
                 }
