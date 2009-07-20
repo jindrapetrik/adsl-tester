@@ -73,8 +73,7 @@ public abstract class Router {
             return true;
         }
             model.Main.connectingStart();
-            sock = new Socket(InetAddress.getByName(adress), port);
-            sock.setSoTimeout(1500);
+            sock = new Socket(InetAddress.getByName(adress), port);            
             is = sock.getInputStream();
             os = sock.getOutputStream();
             connected = true;
@@ -88,7 +87,7 @@ public abstract class Router {
      */
     public void login() throws IOException{
         connect();       
-
+        sock.setSoTimeout(100);
         String line=readAndStopAfterChar(':');
         readByte(); //space
         if((line.toLowerCase().indexOf("login")>-1)||(line.toLowerCase().indexOf("user")>-1)){
@@ -103,6 +102,7 @@ public abstract class Router {
             readLines();
             return;
         }
+        sock.setSoTimeout(Main.socketTimeout);
     }
 
     /**
