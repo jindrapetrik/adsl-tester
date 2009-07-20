@@ -1,4 +1,4 @@
-package view.desktop;
+package view.mobile;
 
 import eve.fx.Color;
 import eve.fx.Font;
@@ -28,7 +28,7 @@ public class StatusDisplay extends Frame{
 
 
     public StatusDisplay(){        
-        setFixedSize(180, 25);
+        setFixedSize(80, 15);
     }
 
 
@@ -38,7 +38,7 @@ public class StatusDisplay extends Frame{
         if(displayed){
             g.setColor(new Color(255,0,0));
             g.fillRect(0, 0, getWidth(), getHeight());            
-            Font mujfont=new Font("",0,15);
+            Font mujfont=new Font("",0,12);
             g.setFont(mujfont);
             FontMetrics fm=g.getFontMetrics(mujfont);
             g.setColor(new Color(255,255,0));
@@ -49,7 +49,6 @@ public class StatusDisplay extends Frame{
             g.setColor(Color.LightGray);
             g.fillRect(0, 0, getWidth(), getHeight());
         }
-        setPreferredSize(150, 25);
     }
 
     public String getStatusText() {

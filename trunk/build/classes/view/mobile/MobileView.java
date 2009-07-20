@@ -1,4 +1,4 @@
-package view.desktop;
+package view.mobile;
 
 import model.MeasuredRouter;
 import view.View;
@@ -7,15 +7,12 @@ import view.View;
  *
  * @author JPEXS
  */
-public class DesktopView extends View{
+public class MobileView extends View{
     public static MainForm mainForm;
     public static ConnectionForm connectionForm;
 
     @Override
     public void showMain() {
-        if(mainForm==null){
-            mainForm = new MainForm();
-        }
         mainForm.display();
     }
 
@@ -26,6 +23,7 @@ public class DesktopView extends View{
         }else{
             mainForm.close(0);
         }
+
         connectionForm = new ConnectionForm();
         connectionForm.display();
     }
@@ -117,18 +115,18 @@ public class DesktopView extends View{
         mainForm.startMeasurement();
     }
 
-
     @Override
     public void switchAdvancedConfig() {
         connectionForm.switchAdvanced();
     }
 
-    public String getConnectionUserName(){
+    @Override
+    public String getConnectionUserName() {
         return connectionForm.getConnectionUserName();
     }
 
-    public String getConnectionPassword(){
-       return connectionForm.getConnectionPassword();
+    @Override
+    public String getConnectionPassword() {
+        return connectionForm.getConnectionPassword();
     }
-
 }
