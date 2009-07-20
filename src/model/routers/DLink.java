@@ -20,6 +20,14 @@ public class DLink extends MeasuredRouter {
     }
 
     @Override
+    public void login() throws IOException {
+        super.login();
+        dofirstMeasure();
+    }
+
+
+
+    @Override
     public void dofirstMeasure() throws IOException {
         super.dofirstMeasure();
         String[] lines;
@@ -50,11 +58,11 @@ public class DLink extends MeasuredRouter {
         for (int i = 0; i < lines.length; i++) {
             if (lines[i].startsWith("ppp0")) {
                 if (i < lines.length - 2) {
-                    if (lines[i + 1].contains("inet addr")) {
+                    if (lines[i + 1].indexOf("inet addr")>-1) {
                         String s = lines[i + 1].substring(lines[i + 1].indexOf(":") + 1);
                         WANIP = s.substring(0, s.indexOf(" "));
                     }
-                    if (lines[i + 2].contains("MTU:")) {
+                    if (lines[i + 2].indexOf("MTU:")>-1) {
                         String s = lines[i + 2].substring(lines[i + 2].indexOf("MTU:") + 4);
                         WANMTU = s.substring(0, s.indexOf(" "));
                     }
