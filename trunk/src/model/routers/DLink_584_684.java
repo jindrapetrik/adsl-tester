@@ -3,20 +3,23 @@ package model.routers;
 import java.io.IOException;
 import model.MeasuredRouter;
 import java.util.ArrayList;
+import model.ProgramLog;
 
 /**
  * DLink router
  * @author JPEXS
  */
-public class DLink extends MeasuredRouter {
+public class DLink_584_684 extends MeasuredRouter {
 
-    public DLink(){
+    
+
+    public DLink_584_684(){
         type="D-link";
     }
 
     @Override
     public String toString() {
-        return "D-link";
+        return "D-link 584/684";
     }
 
     @Override
@@ -31,11 +34,10 @@ public class DLink extends MeasuredRouter {
     public void dofirstMeasure() throws IOException {
         super.dofirstMeasure();
         ArrayList<String> lines;        
-        name = "?";
-        password = "?";
-        maxSpeedDown = "?";
-        maxSpeedUp = "?";
         sysVersion = "?";
+        password = "?";
+        name = "?";
+        model = "?";
         lines = sendRequest("grep VERSION= /etc/versions");
         if (lines.size() > 0) {
             sysVersion = lines.get(0).substring(8);
@@ -44,16 +46,20 @@ public class DLink extends MeasuredRouter {
         if (lines.size() > 0) {
             password = lines.get(0);
         }
-        //lines = sendRequest("echo \"begin;connection0:pppoe:settings/username;end\" | cm_cli");
+        lines = sendRequest("echo \"begin;connection0:pppoe:settings/username;end\" | cm_cli");
         if (lines.size() > 0) {
             name = lines.get(0);
         }
-        lines = sendRequest("echo \"begin;snmpcm:settings/system/sysname;end\" | cm_cli");
+        /*lines = sendRequest("echo \"begin;snmpcm:settings/system/sysname;end\" | cm_cli");
         if (lines.size() > 0) {
             model = lines.get(0);
+        }*/
+        lines = sendRequest("grep MODEL= /etc/versions");
+        if (lines.size() > 0) {
+            model = lines.get(0).substring(6);
         }
 
-
+        sendRequest("cd proc/avalanche/");
 
     }
 
@@ -98,10 +104,10 @@ public class DLink extends MeasuredRouter {
             ArrayList<String> lines;
             measureStart();
 
+     
 
-
-        lines = sendRequest("ifconfig ppp0");
-        for (int i = 0; i < lines.size(); i++) {
+         lines = sendRequest("ifconfig ppp0");
+         for (int i = 0; i < lines.size(); i++) {
             if (lines.get(i).startsWith("ppp0")) {
                 if (i < lines.size() - 2) {
                     if (lines.get(i + 1).indexOf("inet addr")>-1) {
@@ -116,9 +122,7 @@ public class DLink extends MeasuredRouter {
                 break;
             }
         }
-
-            sendCommand("cd proc/avalanche/");
-            lines = sendRequest("cat avsar_modem_stats");
+            lines = sendRequest("cat avsar_modem_stats");     
             String s = "";
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).indexOf("US Connection Rate:") > -1) {
@@ -146,12 +150,16 @@ public class DLink extends MeasuredRouter {
                 if (lines.get(i).indexOf("Trained Mode:") > -1) {
                     s = lines.get(i).substring(lines.get(i).indexOf(":") + 1).trim();
                     String dslString = s.substring(0, s.indexOf(" "));
+                    ADSLStatus="up";
                     if (dslString.equals("16")) {
                         dslStandard = "ADSL2PLUS";
                     } else if (dslString.equals("3")) {
                         dslStandard = "ADSL";
                     } else {
                         dslStandard = dslString + " (?)";
+                    }
+                    if (dslString.equals("0")){
+                        ADSLStatus="down";
                     }
 
                 }
@@ -205,7 +213,17 @@ public class DLink extends MeasuredRouter {
                 if (lines.get(i).indexOf("US Max Attainable Bit Rate") > -1) {
                     maxSpeedUp = lines.get(i).substring(lines.get(i).lastIndexOf(":") + 2);
                 }
+                if (lines.get(i).indexOf("ATUC Vendor ID") > -1) {
+                    s=lines.get(i).substring(lines.get(i).indexOf(":") + 2);
+                    s=s.substring(0,s.indexOf(" "));
+                    long atuclong=Long.parseLong(s);
+                    ATUC="";
+                    for(int p=0;p<4;p++){
+                        ATUC=""+(char)(atuclong & 0xff)+ATUC;
+                        atuclong=atuclong>>8;
+                    }
 
+                }
                 if (lines.get(i).indexOf("ATUC ghsVid") > -1) {
                     s = lines.get(i).substring(lines.get(i).indexOf(":") + 2).trim();
                     byte b[] = new byte[4];
@@ -247,7 +265,7 @@ public class DLink extends MeasuredRouter {
                         int pos = 0;
                         for (int x = 0; x < 16; x++) {
                             if(i + 1 + y<lines.size()){
-                                graphData[g] = Integer.parseInt(lines.get(i + 1 + y).substring(pos, pos + 2).trim(), 16);
+                                graphData[g] = Integer.parseInt(lines.get(i + 1 + y).substring(pos+1, pos + 2).trim(), 16);
                                 g++;
                                 pos += 3;
                             }
