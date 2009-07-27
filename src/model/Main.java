@@ -35,7 +35,7 @@ public class Main {
     public static int scanInterval=2;
     public static String connectionPassword="admin";
     public static String connectionUserName="admin";
-    public static int socketTimeout=15000;
+    public static int socketTimeout=5000;
     private static boolean debugMode=false;
 
     public static void setDebugMode(boolean debugMode) {
@@ -64,6 +64,22 @@ public class Main {
                            socketTimeout=Integer.parseInt(s.substring(s.indexOf("=")+1));
                         }catch(NumberFormatException nex){
                            
+                        }
+                    }
+                    if(s.startsWith("defaultIP=")){
+                        defaultIP=s.substring(s.indexOf("=")+1);
+                    }
+                    if(s.startsWith("defaultUserName=")){
+                        connectionUserName=s.substring(s.indexOf("=")+1);
+                    }
+                    if(s.startsWith("defaultPassword=")){
+                        connectionPassword=s.substring(s.indexOf("=")+1);
+                    }
+                    if(s.startsWith("defaultPort=")){
+                        try{
+                          defaultPort=Integer.parseInt(s.substring(s.indexOf("=")+1));
+                        }catch(NumberFormatException nex){
+                            defaultPort=23;
                         }
                     }
                     if(s.startsWith("debugMode=1")){

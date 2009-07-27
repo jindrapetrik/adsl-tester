@@ -10,15 +10,15 @@ import java.util.ArrayList;
  */
 public abstract class Router {
 
-    private String adress="10.0.0.138";
-    private int port=23;
+    private String adress = "10.0.0.138";
+    private int port = 23;
     private Socket sock;
     protected boolean connected = false;
     private InputStream is;
     private OutputStream os;
-    private boolean debugMode=false;
-    protected String connectionUserName="admin";
-    protected String connectionPassword="admin";
+    private boolean debugMode = false;
+    protected String connectionUserName = "admin";
+    protected String connectionPassword = "admin";
 
     public void setConnectionPassword(String connectionPassword) {
         this.connectionPassword = connectionPassword;
@@ -27,8 +27,6 @@ public abstract class Router {
     public void setConnectionUserName(String connectionUserName) {
         this.connectionUserName = connectionUserName;
     }
-   
-
 
     /**
      * Constructor of TelnetCommunicator
@@ -42,7 +40,6 @@ public abstract class Router {
         this.debugMode = debugMode;
     }
 
-
     public String getAdress() {
         return adress;
     }
@@ -55,14 +52,13 @@ public abstract class Router {
         return port;
     }
 
-    public void setAddressAndPort(String adress,int port) {        
-        this.adress=adress;
-        this.port=port;
-        if(connected){
+    public void setAddressAndPort(String adress, int port) {
+        this.adress = adress;
+        this.port = port;
+        if (connected) {
             disconnect();
         }
     }
-
 
     /**
      * Initializes connection to the router
@@ -72,32 +68,32 @@ public abstract class Router {
         if (connected) {
             return true;
         }
-            model.Main.connectingStart();
-            sock = new Socket(InetAddress.getByName(adress), port);            
-            is = sock.getInputStream();
-            os = sock.getOutputStream();
-            connected = true;
-            readLine(); //telnet header
-            model.Main.connectingFinished();
-            return true;        
+        model.Main.connectingStart();
+        sock = new Socket(InetAddress.getByName(adress), port);
+        is = sock.getInputStream();
+        os = sock.getOutputStream();
+        connected = true;
+        readLine(); //telnet header
+        model.Main.connectingFinished();
+        return true;
     }
 
     /**
      * Log on the router
      */
-    public void login() throws IOException{
-        connect();       
-        sock.setSoTimeout(100);
-        String line=readAndStopAfterChar(':');
+    public void login() throws IOException {
+        connect();
+        sock.setSoTimeout(2000);
+        String line = readAndStopAfterChar(':');
         readByte(); //space
-        if((line.toLowerCase().indexOf("login")>-1)||(line.toLowerCase().indexOf("user")>-1)){
+        if ((line.toLowerCase().indexOf("login") > -1) || (line.toLowerCase().indexOf("user") > -1)) {
             sendLine(connectionUserName);
             readLine();
-            line=readAndStopAfterChar(':');
+            line = readAndStopAfterChar(':');
             readByte(); //space            
-            readLine();            
+            readLine();
         }
-        if(line.toLowerCase().indexOf("password")>-1){
+        if (line.toLowerCase().indexOf("password") > -1) {
             sendLine(connectionPassword);
             readLines();
             return;
@@ -106,52 +102,16 @@ public abstract class Router {
     }
 
     /**
-     * Reads all available lines from router to a list
-     * @return ArrayList of all lines
-     */
-    public ArrayList<String> readLinesList() throws IOException{
-        //ProgramLog.println("readLinesList start");
-        String s="";
-        ArrayList<String> ret=new ArrayList<String>();
-        if(!connect()) return ret;
-        while((s=readLine())!=null){
-            //ProgramLog.println("added 1 line");
-            ret.add(s);
-        }
-        return ret;
-    }
-
-    /**
-     * Reads all available lines from router to an array
-     * @return Array of all lines
-     */
-    public String[] readLines() throws IOException{
-        //ProgramLog.println("readLines start");
-        if(!connect()) return new String[0];
-        //ProgramLog.println("Calling readLinesList");
-        ArrayList<String> list=readLinesList();
-        //ProgramLog.println("Converting list to array");
-        if(list.size()==0){
-            return null;
-        }
-        String ret[]=new String[list.size()];
-        for(int i=0;i<list.size();i++)
-        {
-            ret[i]=list.get(i);
-        }
-        return ret;
-    }
-
-    /**
      * Reads one byte from the router
      * @return One byte or -1 on error
      */
-    public int readByte() throws IOException{
-        try{
-        if(!connect()) return -1;        
+    public int readByte() throws IOException {
+        try {
+            if (!connect()) {
+                return -1;
+            }
             return is.read();
-        }catch(SocketTimeoutException ex){
-
+        } catch (SocketTimeoutException ex) {
         }
         return 0;
     }
@@ -160,9 +120,11 @@ public abstract class Router {
      * Reads one byte from the router
      * @return One byte or -1 on error
      */
-    public int readByteDontWait() throws IOException{
-        if(!connect()) return -1;       
-            return is.read();
+    public int readByteDontWait() throws IOException {
+        if (!connect()) {
+            return -1;
+        }
+        return is.read();
     }
 
     /**
@@ -171,38 +133,47 @@ public abstract class Router {
      */
     public String readLine() throws IOException {
         //ProgramLog.println("readLine start");
-        if(!connect()) return "";
+        if (!connect()) {
+            return "";
+        }
         try {
             boolean end = false;
-            int i=0;
-            int prev=0;
-            String line="";
-            if(debugMode)
-            ProgramLog.print("<\"");
+            int i = 0;
+            int prev = 0;
+            String line = "";
+            if (debugMode) {
+                ProgramLog.print("<\"");
+            }
             do {
                 i = is.read();
-                if((i!='\n')&&(i!='\r')){
-                    line+=(char)i;
+                if ((i != '\n') && (i != '\r')) {
+                    line += (char) i;
                 }
-                if((i=='\n')&&(prev=='\r')){
-                    if(debugMode)
-                    ProgramLog.println("\"");
+                if ((i == '\n') && (prev == '\r')) {
+                    if (debugMode) {
+                        ProgramLog.println("\"");
+                    }
                     return line;
                 }
-                if(checkRouterHeader(line)){
-                    if(debugMode)
-                    ProgramLog.println(((char)i)+"\"");
+                if (checkRouterHeader(line)) {
+                    if (debugMode) {
+                        ProgramLog.println(((char) i) + "\"");
+                    }
                     return null;
                 }
-                prev=i;
-                if(i==-1) break;
-                if(debugMode)
-                  ProgramLog.print(""+(char)i);
+                prev = i;
+                if (i == -1) {
+                    break;
+                }
+                if (debugMode) {
+                    ProgramLog.print("" + (char) i);
+                }
             } while (!end);
-        }catch(SocketTimeoutException ex){
+        } catch (SocketTimeoutException ex) {
         }
-        if(debugMode)
-        ProgramLog.println("\"");
+        if (debugMode) {
+            ProgramLog.println("\"");
+        }
         return null;
     }
 
@@ -211,10 +182,13 @@ public abstract class Router {
      * @param line Command to send
      * @return True on success
      */
-    public boolean sendLine(String line) throws IOException{
-        if(debugMode)
-        ProgramLog.println(">\""+line+"\"");
-        if(!connect()) return false;
+    public boolean sendLine(String line) throws IOException {
+        if (debugMode) {
+            ProgramLog.println(">\"" + line + "\"");
+        }
+        if (!connect()) {
+            return false;
+        }
         os.write((line + "\r\n").getBytes());
         return true;
     }
@@ -224,29 +198,33 @@ public abstract class Router {
      * @param str String to stop after
      * @return True when found
      */
-    public boolean readAndStopAfterString(String str) throws IOException{
-        if(!connect()) return false;
-            boolean end = false;
-            int i=0;
-            int prev=0;
-            String line="";
-            do {
-                i = is.read();
-                if((i!='\n')&&(i!='\r')){
-                    line+=(char)i;
-                }
-                if((i=='\n')&&(prev=='\r')){
-                    if(debugMode)
+    public boolean readAndStopAfterString(String str) throws IOException {
+        if (!connect()) {
+            return false;
+        }
+        boolean end = false;
+        int i = 0;
+        int prev = 0;
+        String line = "";
+        do {
+            i = is.read();
+            if ((i != '\n') && (i != '\r')) {
+                line += (char) i;
+            }
+            if ((i == '\n') && (prev == '\r')) {
+                if (debugMode) {
                     ProgramLog.println("Router header not found");
-                    return false;
                 }
-                if(line.equals(str)){
-                    if(debugMode)
+                return false;
+            }
+            if (line.equals(str)) {
+                if (debugMode) {
                     ProgramLog.println("Router header found");
-                    return true;
                 }
-                prev=i;
-            } while (!end);
+                return true;
+            }
+            prev = i;
+        } while (!end);
 
         return false;
     }
@@ -256,33 +234,34 @@ public abstract class Router {
      * @param c Char to stop after
      * @return String before c
      */
-    public String readAndStopAfterChar(char c) throws IOException{
-        if(!connect()) return "";
-        String line="";
+    public String readAndStopAfterChar(char c) throws IOException {
+        if (!connect()) {
+            return "";
+        }
+        String line = "";
         try {
             boolean end = false;
-            int i=0;
-            int prev=0;
+            int i = 0;
+            int prev = 0;
             do {
                 i = is.read();
-                if((i!='\n')&&(i!='\r')){
-                    line+=(char)i;
+                if ((i != '\n') && (i != '\r')) {
+                    line += (char) i;
                 }
                 /*if((i=='\n')&&(prev=='\r')){
-                    if(debugMode)
-                      ProgramLog.println("Read till char - EOL:"+line);
-                    return line;
+                if(debugMode)
+                ProgramLog.println("Read till char - EOL:"+line);
+                return line;
                 }*/
-                if(i==c){
-                    if(debugMode){
-                        ProgramLog.println("<"+line);
+                if (i == c) {
+                    if (debugMode) {
+                        ProgramLog.println("<" + line);
                     }
                     return line;
                 }
-                prev=i;
+                prev = i;
             } while (!end);
-        }catch(SocketTimeoutException ex){
-
+        } catch (SocketTimeoutException ex) {
         }
         return line;
     }
@@ -290,8 +269,8 @@ public abstract class Router {
     /**
      * Disconnects router
      */
-    public void disconnect(){        
-        connected=false;
+    public void disconnect() {
+        connected = false;
         try {
             is.close();
             os.close();
@@ -305,20 +284,21 @@ public abstract class Router {
      * @param command Command to send
      * @return Array of returned lines
      */
-    public String[] sendRequest(String command) throws IOException{
+    public ArrayList<String> sendRequest(String command) throws IOException {
         sendLine(command);
         readLine();
-        String ret[]=readLines();
-        if(ret==null)
-           throw new model.NoAnswerException();
+        ArrayList<String> ret = readLines();
+        if (ret == null) {
+            throw new model.NoAnswerException();
+        }
         return ret;
     }
-    
+
     /**
      * Sends command to the router
      * @param command Command to send
      */
-    public void sendCommand(String command) throws IOException{
+    public void sendCommand(String command) throws IOException {
         sendLine(command);
         readLine();
         readLines();
@@ -326,4 +306,47 @@ public abstract class Router {
 
     public abstract boolean checkRouterHeader(String header);
 
+    public ArrayList<String> readLines() throws IOException {
+        ArrayList<String> ret = new ArrayList<String>();
+        try {
+            boolean end = false;
+            int i = 0;
+            int prev = 0;
+            String line = "";
+            if (debugMode) {
+                ProgramLog.print("<\"");
+            }
+            do {
+                i = is.read();
+                if ((i != '\n') && (i != '\r')) {
+                    line += (char) i;
+                }
+                if ((i == '\n') && (prev == '\r')) {
+                    if (debugMode) {
+                        ProgramLog.println("\"");
+                    }
+                    ret.add(line);
+                    line = "";
+                }
+                if (checkRouterHeader(line)) {
+                    if (debugMode) {
+                        ProgramLog.println(((char) i) + "\"");
+                    }
+                    return ret;
+                }
+                prev = i;
+                if (i == -1) {
+                    return null;
+                }
+                if (debugMode) {
+                    ProgramLog.print("" + (char) i);
+                }
+            } while (!end);
+        } catch (SocketTimeoutException ex) {
+        }
+        if (debugMode) {
+            ProgramLog.println("\"");
+        }
+        return null;
+    }
 }
