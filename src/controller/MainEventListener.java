@@ -4,6 +4,7 @@ import eve.sys.Event;
 import eve.sys.EventListener;
 import eve.ui.event.ControlEvent;
 import model.Main;
+import model.StandardChangeable;
 
 /**
  *
@@ -31,6 +32,28 @@ public class MainEventListener implements EventListener{
             {
                 view.Main.view.showConfig();
             }
+
+            if(cev.action.equals("SETGDMT"))
+            {
+                if(model.Main.router instanceof StandardChangeable){
+                    ((StandardChangeable)model.Main.router).setStandardGDMT();
+                }
+            }
+
+            if(cev.action.equals("SET2PLUS"))
+            {
+                if(model.Main.router instanceof StandardChangeable){
+                    ((StandardChangeable)model.Main.router).setStandard2Plus();
+                }
+            }
+
+            if(cev.action.equals("SETMULTI"))
+            {
+                if(model.Main.router instanceof StandardChangeable){
+                    ((StandardChangeable)model.Main.router).setStandardMulti();
+                }
+            }
+
 
             if(cev.action.equals("EXIT"))
             {

@@ -4,12 +4,13 @@ import java.io.IOException;
 import model.MeasuredRouter;
 import java.util.ArrayList;
 import model.ProgramLog;
+import model.StandardChangeable;
 
 /**
  * Huawei
  * @author JPEXS
  */
-public class Zyxel extends MeasuredRouter {
+public class Zyxel extends MeasuredRouter implements StandardChangeable{
 
     public Zyxel() {
         type = "Zyxel";
@@ -186,7 +187,7 @@ public class Zyxel extends MeasuredRouter {
         readByte();
         sendLine("8");
         readLines();
-        dofirstMeasure();
+        //dofirstMeasure();
     }
 
     @Override
@@ -456,5 +457,47 @@ public class Zyxel extends MeasuredRouter {
             model = header.substring(0, header.indexOf(">"));
         }
         return ok;
+    }
+
+    public void setStandardGDMT() {
+        if(connected)
+            disconnect();
+        try {
+            login();
+            sendRequest("wan adsl close");
+            sendRequest("wan adsl opencmd gdmt");
+            sendRequest("wan adsl open");
+            disconnect();
+        } catch (IOException ex) {
+
+        }
+    }
+
+    public void setStandard2Plus() {
+        if(connected)
+            disconnect();
+        try {
+            login();
+            sendRequest("wan adsl close");
+            sendRequest("wan adsl opencmd adsl2plus");
+            sendRequest("wan adsl open");
+            disconnect();
+        } catch (IOException ex) {
+
+        }
+    }
+
+    public void setStandardMulti() {
+        if(connected)
+            disconnect();
+        try {
+            login();
+            sendRequest("wan adsl close");
+            sendRequest("wan adsl opencmd multimode");
+            sendRequest("wan adsl open");
+            disconnect();
+        } catch (IOException ex) {
+
+        }
     }
 }

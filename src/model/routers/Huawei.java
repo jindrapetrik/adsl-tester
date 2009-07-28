@@ -22,7 +22,7 @@ public class Huawei extends MeasuredRouter {
     @Override
     public void login() throws IOException {
         super.login();
-        dofirstMeasure();
+        //dofirstMeasure();
     }
 
     @Override
