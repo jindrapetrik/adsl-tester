@@ -18,9 +18,9 @@ public class ConnectionEventListener implements EventListener {
                 if (!view.Main.view.areParametersValid()) {
                     view.Main.view.displayMessageInvalid();
                 } else {
-                    if(model.Main.router!=null){
+                    /*if(model.Main.router!=null){
                         model.Main.stopMeasure();
-                    }
+                    }*/
                     model.Main.router=view.Main.view.getRouter();                    
                     model.Main.connectionPassword=view.Main.view.getConnectionPassword();
                     model.Main.connectionUserName=view.Main.view.getConnectionUserName();

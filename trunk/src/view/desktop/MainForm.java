@@ -8,9 +8,9 @@ import eve.ui.Form;
 import eve.ui.Frame;
 import eve.ui.Input;
 import eve.ui.Label;
-import eve.ui.MessageBox;
 import eve.ui.formatted.TextDisplay;
 import model.Main;
+import model.StandardChangeable;
 
 /**
  * Main form
@@ -127,6 +127,10 @@ public class MainForm extends Form {
 
     private Label ES24hLabel = new Label(view.Main.language.ES24h);
     private TextDisplay ES24hTextDisplay = new TextDisplay();
+
+    private Button setGDMTButton=new Button("GDMT");
+    private Button set2PlusButton=new Button("2Plus");
+    private Button setMultimodeButton=new Button("Multi");
 
     public MainForm() {
         int textDisplayWidth = 85;
@@ -332,10 +336,27 @@ public class MainForm extends Form {
         mainButtonsFrame.addNext(logo, Frame.LEFT, Frame.Left);
         mainButtonsFrame.addNext(statusDisplay, Frame.LEFT, Frame.Left);
 
-        Frame sepFrame2 = new Frame();
-        sepFrame2.setPreferredSize(100, 30);
 
-        mainButtonsFrame.addNext(sepFrame2);
+        Frame sepFrame2 = new Frame();
+        if(Main.router instanceof StandardChangeable){
+            setGDMTButton.setFixedSize(100, 30);
+            setGDMTButton.addListener(controller.Main.mainEventListener);
+            setGDMTButton.setAction("SETGDMT");
+            set2PlusButton.setFixedSize(100, 30);
+            set2PlusButton.addListener(controller.Main.mainEventListener);
+            set2PlusButton.setAction("SET2PLUS");
+            setMultimodeButton.setFixedSize(100, 30);
+            setMultimodeButton.addListener(controller.Main.mainEventListener);
+            setMultimodeButton.setAction("SETMULTI");
+            
+            mainButtonsFrame.addNext(setGDMTButton, Frame.LEFT, Frame.Left);
+            mainButtonsFrame.addNext(set2PlusButton, Frame.LEFT, Frame.Left);
+            mainButtonsFrame.addNext(setMultimodeButton, Frame.LEFT, Frame.Left);
+            sepFrame2.setPreferredSize(50, 30);
+        }else{            
+            sepFrame2.setPreferredSize(100, 30);
+        }
+         mainButtonsFrame.addNext(sepFrame2);
 
         modemIPChangeButton.setFixedSize(130, 30);
         mainButtonsFrame.addNext(modemIPChangeButton, Frame.RIGHT, Frame.Right);
@@ -462,6 +483,9 @@ public class MainForm extends Form {
         exitButton.set(Frame.Disabled, true);
         scanEveryInput.set(Frame.Disabled, true);
         logCheckBox.set(Frame.Disabled, true);
+        setGDMTButton.set(Frame.Disabled, true);
+        set2PlusButton.set(Frame.Disabled, true);
+        setMultimodeButton.set(Frame.Disabled, true);
         repaint();
     }
 
@@ -479,6 +503,9 @@ public class MainForm extends Form {
         scanEveryInput.set(Frame.Disabled, false);
         logCheckBox.set(Frame.Disabled, false);
         modemIPChangeButton.set(Frame.Disabled, false);
+        setGDMTButton.set(Frame.Disabled, false);
+        set2PlusButton.set(Frame.Disabled, false);
+        setMultimodeButton.set(Frame.Disabled, false);
         connectingHide();
         repaint();
     }

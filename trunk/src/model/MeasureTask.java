@@ -17,6 +17,7 @@ public class MeasureTask extends TimerTask{
         try {
             if(!Main.router.isConnected()){
                 Main.router.login();
+                Main.router.dofirstMeasure();
             }
             Main.router.doMeasurement();
         } catch (IOException ex) {

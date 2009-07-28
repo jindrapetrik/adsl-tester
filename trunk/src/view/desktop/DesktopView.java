@@ -13,18 +13,15 @@ public class DesktopView extends View{
 
     @Override
     public void showMain() {
-        if(mainForm==null){
-            mainForm = new MainForm();
-        }
+        mainForm = new MainForm();
         mainForm.display();
     }
 
     @Override
     public void showConfig() {
-        if(mainForm==null){
-            mainForm = new MainForm();
-        }else{
+        if(mainForm!=null){
             mainForm.close(0);
+            mainForm=null;
         }
         connectionForm = new ConnectionForm();
         connectionForm.display();
@@ -99,6 +96,7 @@ public class DesktopView extends View{
     @Override
     public void hideConfig() {
         connectionForm.close(0);
+        mainForm=new MainForm();
         mainForm.display();
     }
 
