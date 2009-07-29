@@ -452,6 +452,7 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
 
     @Override
     public boolean checkRouterHeader(String header) {
+        header=header.replace(""+(char)0x1B+(char)0x37, "");
         boolean ok = (header.length() < 15) && header.endsWith("> ");
         if (ok) {
             model = header.substring(0, header.indexOf(">"));
@@ -497,7 +498,7 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
             sendRequest("wan adsl open");
             disconnect();
         } catch (IOException ex) {
-
+            ProgramLog.print("Chyba:"+ex.toString());
         }
     }
 }
