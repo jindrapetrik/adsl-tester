@@ -116,6 +116,10 @@ public class MainForm extends Form {
 
     private Label sysVersionLabel = new Label(view.Main.language.sysVersion);
     private TextDisplay sysVersionTextDisplay = new TextDisplay();
+
+    private Label bootBaseVersionLabel = new Label(view.Main.language.bootBaseVersion);
+    private TextDisplay bootBaseVersionTextDisplay = new TextDisplay();
+
     private Label ATUCLabel = new Label(view.Main.language.ATUC);
     private TextDisplay ATUCTextDisplay = new TextDisplay();
 
@@ -286,26 +290,31 @@ public class MainForm extends Form {
         addLast(settingsFrame);
 
         graphCol2Frame.addNext(uptimeLabel, 0, Frame.CENTER);
-        graphCol2Frame.addLast(WANMTULabel, 0, Frame.CENTER);
+        graphCol2Frame.addNext(WANMTULabel, 0, Frame.CENTER);
+        graphCol2Frame.addLast(syncNumLabel, 0, Frame.CENTER);
 
         uptimeTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
         graphCol2Frame.addNext(uptimeTextDisplay, 0, Frame.CENTER);                
         WANMTUTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
-        graphCol2Frame.addLast(WANMTUTextDisplay, 0, Frame.CENTER);
+        graphCol2Frame.addNext(WANMTUTextDisplay, 0, Frame.CENTER);
+        syncNumTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
+        graphCol2Frame.addLast(syncNumTextDisplay, 0, Frame.CENTER);
+
 
         graphCol2Frame.addNext(ADSLStatusLabel, 0, Frame.CENTER);
-        graphCol2Frame.addLast(WANIPLabel, 0, Frame.CENTER);
+        graphCol2Frame.addNext(WANIPLabel, 0, Frame.CENTER);
+        graphCol2Frame.addLast(ES24hLabel, 0, Frame.CENTER);
         ADSLStatusTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
         graphCol2Frame.addNext(ADSLStatusTextDisplay, 0, Frame.CENTER);
         WANIPTextDisplay.setFixedSize(100, textDisplayHeight);
-        graphCol2Frame.addLast(WANIPTextDisplay, 0, Frame.CENTER);
-
-        graphCol2Frame.addNext(syncNumLabel, 0, Frame.CENTER);
-        graphCol2Frame.addLast(ES24hLabel, 0, Frame.CENTER);
-        syncNumTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
-        graphCol2Frame.addNext(syncNumTextDisplay, 0, Frame.CENTER);       
+        graphCol2Frame.addNext(WANIPTextDisplay, 0, Frame.CENTER);
         ES24hTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
         graphCol2Frame.addLast(ES24hTextDisplay, 0, Frame.CENTER);
+
+
+        graphCol2Frame.addLast(bootBaseVersionLabel, 0, Frame.CENTER);
+        bootBaseVersionTextDisplay.setFixedSize(260, textDisplayHeight);
+        graphCol2Frame.addLast(bootBaseVersionTextDisplay, 0, Frame.CENTER);
 
         graphCol2Frame.addLast(sysVersionLabel, 0, Frame.CENTER);
         sysVersionTextDisplay.setFixedSize(260, textDisplayHeight);
@@ -430,6 +439,7 @@ public class MainForm extends Form {
             WANMTUTextDisplay.setText(Main.router.getWANMTU());
             WANIPTextDisplay.setText(Main.router.getWANIP());
             ES24hTextDisplay.setText(Main.router.getES24h());
+            bootBaseVersionTextDisplay.setText(Main.router.getBootBaseVersion());
             repaint();
         } catch (NullPointerException nex) {
         }

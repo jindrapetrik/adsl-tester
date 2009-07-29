@@ -3,11 +3,10 @@ package model.routers;
 import java.io.IOException;
 import model.MeasuredRouter;
 import java.util.ArrayList;
-import model.ProgramLog;
 import model.StandardChangeable;
 
 /**
- * Huawei
+ * Zyxel
  * @author JPEXS
  */
 public class Zyxel extends MeasuredRouter implements StandardChangeable{
@@ -35,6 +34,7 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
         maxSpeedDown = "?";
         maxSpeedUp = "?";
         sysVersion = "?";
+        bootBaseVersion = "?";
 
         ArrayList<String> lines;
 
@@ -155,6 +155,10 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
         for (int i = 0; i < lines.size(); i++) {
             if (lines.get(i).indexOf("ZyNOS version") > -1) {
                 sysVersion = lines.get(i).substring(lines.get(i).indexOf(":") + 2);
+                break;
+            }
+            if (lines.get(i).indexOf("bootbase version") > -1) {
+                bootBaseVersion = lines.get(i).substring(lines.get(i).indexOf(":") + 2);
                 break;
             }
         }
@@ -300,6 +304,17 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
                 break;
             }
         }
+        
+        //Decrease powerDown by 80 when greater than 80
+        try{
+          int pwdni=Integer.parseInt(powerDown);
+          if(pwdni>80){
+              pwdni-=80;
+              powerDown=""+pwdni;
+          }
+        }catch(NumberFormatException nex){
+        }
+
         graphData = new int[512];
         int x = 0;
         for (int i = tonestart; i < lines.size(); i++) {
@@ -498,7 +513,7 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
             sendRequest("wan adsl open");
             disconnect();
         } catch (IOException ex) {
-            ProgramLog.print("Chyba:"+ex.toString());
+            
         }
     }
 }

@@ -99,6 +99,7 @@ public class DLink_584_684 extends MeasuredRouter {
         vpivci = "?";
         WANMTU = "?";
         WANIP = "?";
+        bootBaseVersion = "?";
 
 
             ArrayList<String> lines;

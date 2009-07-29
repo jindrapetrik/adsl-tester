@@ -58,5 +58,6 @@ public class CzechLanguage extends Language {
         connectionUserName="Uživatelské jméno";
         advancedConfig="Rozšíøené";
         actions="Akce";
+        bootBaseVersion="Bootbase verze";
     }
 }

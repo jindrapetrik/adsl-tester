@@ -1,13 +1,16 @@
 package view.desktop;
 
 import eve.ui.Button;
+import eve.ui.Choice;
 import eve.ui.Form;
 import eve.ui.Frame;
 import eve.ui.Input;
 import eve.ui.Label;
 import eve.ui.List;
 import eve.ui.MessageBox;
+import eve.ui.Panel;
 import eve.ui.PasswordInput;
+import eve.ui.ScrollBarPanel;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import model.MeasuredRouter;
@@ -26,7 +29,7 @@ public class ConnectionForm extends Form {
     private Button okButton = new Button(view.Main.language.ok);
     private Button cancelButton = new Button(view.Main.language.cancel);
     private Label routerLabel = new Label(view.Main.language.modemType);
-    private List routersList = new List(1, 1, false);
+    private Choice routersList = new Choice(); //(1, 1, false);
     private static int lastSelectedModem=0;
 
     private Label connectionUserNameLabel=new Label(view.Main.language.connectionUserName);
@@ -57,7 +60,6 @@ public class ConnectionForm extends Form {
     public ConnectionForm() {
         addNext(ipLabel);
         addLast(ipInput);
-
         advancedFrame.addNext(portLabel);
         advancedFrame.addLast(portInput);
         advancedFrame.addNext(connectionUserNameLabel);
@@ -68,6 +70,9 @@ public class ConnectionForm extends Form {
         connectionPasswordInput.setText(model.Main.connectionPassword);        
         addNext(routerLabel);
         addLast(routersList);
+        Panel psep=new Panel();
+        psep.setFixedSize(100, 20);
+        addLast(psep);
         addLast(advancedFrame);
         advancedFrame.setBorder(Frame.EDGE_RAISED, 2);
         okButton.setAction("OK");
@@ -79,14 +84,14 @@ public class ConnectionForm extends Form {
         advancedButton.addListener(controller.Main.connectionEventListener);
         buttonFrame.addNext(okButton);
         buttonFrame.addNext(advancedButton);
-        buttonFrame.addLast(cancelButton);
-        routersList.setFixedSize(100, 75);
+        buttonFrame.addLast(cancelButton);        
         for (int i = 0; i < model.Main.routers.size(); i++) {
             routersList.addItem(model.Main.routers.get(i));
         }
         routersList.select(lastSelectedModem);
         title = view.Main.language.parameters;
         addLast(buttonFrame);
+        resizable=false;
     }
 
     public MeasuredRouter getRouter() {

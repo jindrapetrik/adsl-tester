@@ -53,6 +53,11 @@ public abstract class MeasuredRouter extends Router {
     protected String WANIP = "";
     protected String ES24h = "";
     protected String type = "Router";
+    protected String bootBaseVersion = "";
+
+    public String getBootBaseVersion() {
+        return bootBaseVersion;
+    }   
 
     public String getES24h() {
         return ES24h;

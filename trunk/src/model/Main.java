@@ -37,6 +37,7 @@ public class Main {
     public static String connectionUserName="admin";
     public static int socketTimeout=5000;
     private static boolean debugMode=false;
+    private static String lastLogLine="";
 
     public static void setDebugMode(boolean debugMode) {
         Main.debugMode = debugMode;
@@ -141,6 +142,10 @@ public class Main {
         Application.exit(0);
     }
 
+    private static String fixFileName(String name){
+        return name.replaceAll("[\\/]", "_").toLowerCase();
+    }
+
     public static void startMeasure() {
         router.setDebugMode(debugMode);
         view.Main.view.startMeasurement();
@@ -151,14 +156,14 @@ public class Main {
         timer.schedule(new MeasureTask(), 1, delay);
 
         if (logEnabled) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1"));
+            Calendar cal = Calendar.getInstance();
             String date = "" + cal.get(Calendar.DAY_OF_MONTH) + "." + (cal.get(Calendar.MONTH) + 1) + "." + cal.get(Calendar.YEAR);
             String min = ""+cal.get(Calendar.MINUTE);
             if(min.length()==1) min="0"+min;
             String hr = ""+cal.get(Calendar.HOUR_OF_DAY);
             if(hr.length()==1) hr="0"+hr;
             String time = hr + "_"+min;
-            logFile = new File(router.toString().toLowerCase() + "log" + date + " " + time + ".txt");
+            logFile = new File(fixFileName(router.toString()) + "log" + date + " " + time + ".txt");
             try {
                 logOutputStream = new FileOutputStream(logFile.toJavaFile());
                 String header=view.Main.language.logHeader;
@@ -218,65 +223,51 @@ public class Main {
 
     public static void measureFinished() {
         view.Main.view.measuringFinish();
+        String logLine="";
         if (logEnabled) {
             try {
-                logOutputStream.write(router.getDslStandard().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(("" + router.getSpeedDown() + " kbps").getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(("" + router.getSpeedUp() + " kbps").getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getUptime().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getPowerUp().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getAttenuationUp().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getPowerDown().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getAttenuationDown().getBytes());
-                logOutputStream.write(';');
+                logLine+=router.getDslStandard()+";";
+                logLine+=router.getSpeedDown()+";";
+                logLine+=router.getSpeedUp()+";";
+                logLine+=router.getUptime()+";";
+                logLine+=router.getPowerUp()+";";
+                logLine+=router.getAttenuationUp()+";";
+                logLine+=router.getPowerDown()+";";
+                logLine+=router.getAttenuationDown()+";";
 
-                logOutputStream.write(router.getErrorsDownStreamFastFEC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsDownStreamFastCRC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsDownStreamFastHEC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsDownStreamIntFEC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsDownStreamIntCRC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsDownStreamIntHEC().getBytes());
-                logOutputStream.write(';');
+                logLine+=router.getErrorsDownStreamFastFEC()+";";
+                logLine+=router.getErrorsDownStreamFastCRC()+";";
+                logLine+=router.getErrorsDownStreamFastHEC()+";";
 
-                logOutputStream.write(router.getErrorsUpStreamFastFEC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsUpStreamFastCRC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsUpStreamFastHEC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsUpStreamIntFEC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsUpStreamIntCRC().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getErrorsUpStreamIntHEC().getBytes());
-                logOutputStream.write(';');
+                logLine+=router.getErrorsDownStreamIntFEC()+";";
+                logLine+=router.getErrorsDownStreamIntCRC()+";";
+                logLine+=router.getErrorsDownStreamIntHEC()+";";
 
-                logOutputStream.write(router.getMarginUp().getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write(router.getMarginDown().getBytes());
-                logOutputStream.write(';');
+                logLine+=router.getErrorsUpStreamFastFEC()+";";
+                logLine+=router.getErrorsUpStreamFastCRC()+";";
+                logLine+=router.getErrorsUpStreamFastHEC()+";";
 
-                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1"));
+                logLine+=router.getErrorsUpStreamIntFEC()+";";
+                logLine+=router.getErrorsUpStreamIntCRC()+";";
+                logLine+=router.getErrorsUpStreamIntHEC()+";";
+                
+                logLine+=router.getMarginUp()+";";
+                logLine+=router.getMarginDown()+";";
+
+                Calendar cal = Calendar.getInstance();
                 String min = ""+cal.get(Calendar.MINUTE);
                 if(min.length()==1) min="0"+min;
                 String hr = ""+cal.get(Calendar.HOUR_OF_DAY);
                 if(hr.length()==1) hr="0"+hr;
                 String time = hr + ":"+min;
-                logOutputStream.write(time.getBytes());
-                logOutputStream.write(';');
-                logOutputStream.write("\r\n".getBytes());
+
+                if(!logLine.equals(lastLogLine)){
+                    logOutputStream.write(logLine.getBytes());
+                    logOutputStream.write(time.getBytes());
+                    logOutputStream.write(';');
+                    logOutputStream.write("\r\n".getBytes());
+                    lastLogLine=logLine;
+                }
 
             } catch (Exception ex) {
                 
