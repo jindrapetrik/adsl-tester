@@ -58,5 +58,6 @@ public class CzechNoDiaLanguage extends Language {
         connectionUserName="Uzivatelske jmeno";
         advancedConfig="Rozsirene";
         actions="Akce";
+        bootBaseVersion="Bootbase verze";
     }
 }

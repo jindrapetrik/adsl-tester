@@ -105,6 +105,7 @@ public class Huawei extends MeasuredRouter {
         ADSLStatus = "?";
         WANMTU = "?";
         WANIP = "?";
+        bootBaseVersion = "?";
         measureStart();
         //Speed down
         ArrayList<String> lines;
