@@ -154,8 +154,7 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
         lines = sendRequest("sys ver");
         for (int i = 0; i < lines.size(); i++) {
             if (lines.get(i).indexOf("ZyNOS version") > -1) {
-                sysVersion = lines.get(i).substring(lines.get(i).indexOf(":") + 2);
-                break;
+                sysVersion = lines.get(i).substring(lines.get(i).indexOf(":") + 2);                
             }
             if (lines.get(i).indexOf("bootbase version") > -1) {
                 bootBaseVersion = lines.get(i).substring(lines.get(i).indexOf(":") + 2);
@@ -166,23 +165,7 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
     }
 
     @Override
-    public void login() throws IOException {
-        /*connect();
-
-        String line = readAndStopAfterChar(':');
-        readByte(); //space
-        if ((line.toLowerCase().indexOf("login") > -1) || (line.toLowerCase().indexOf("user") > -1)) {
-        sendLine(connectionUserName);
-        readLine();
-        line = readAndStopAfterChar(':');
-        readByte(); //space
-        readLine();
-        }
-        if (line.toLowerCase().indexOf("password") > -1) {
-        sendLine(connectionPassword);
-        readLine();
-        return;
-        }*/
+    public void login() throws IOException {        
         super.login();
         readAndStopAfterChar(':');
         readByte();
