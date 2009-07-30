@@ -3,6 +3,7 @@ package model.routers;
 import java.io.IOException;
 import model.MeasuredRouter;
 import java.util.ArrayList;
+import model.Main;
 import model.StandardChangeable;
 
 /**
@@ -448,9 +449,11 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
         super.disconnect();
     }
 
+    
+
     @Override
     public boolean checkRouterHeader(String header) {
-        header=header.replace(""+(char)0x1B+(char)0x37, "");
+        header=Main.replaceStr(header,""+(char)0x1B+(char)0x37, "");
         boolean ok = (header.length() < 15) && header.endsWith("> ");
         if (ok) {
             model = header.substring(0, header.indexOf(">"));
