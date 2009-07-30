@@ -16,6 +16,7 @@ import eve.ui.MessageBox;
 import eve.ui.SoftKeyBar;
 import eve.ui.formatted.TextDisplay;
 import model.Main;
+import model.StandardChangeable;
 
 /**
  * Main form
@@ -97,6 +98,9 @@ public class MainForm extends Form {
     private CheckBox logCheckBox = new CheckBox(view.Main.language.doLog);
     private Button startMeasureButton = new Button(view.Main.language.startMeasure);
     private Button stopMeasureButton = new Button(view.Main.language.stopMeasure);
+    private Button setGDMTButton=new Button("GDMT");
+    private Button set2PlusButton=new Button("2Plus");
+    private Button setMultimodeButton=new Button("Multi");
     private Frame mainButtonsFrame = new Frame();
     private Button modemIPChangeButton = new Button(view.Main.language.modemIPChange);
     private Button exitButton = new Button(view.Main.language.exit);
@@ -219,14 +223,26 @@ public class MainForm extends Form {
         
 
         startMeasureButton.setFixedSize(75, 20);
-        stopMeasureButton.setFixedSize(75, 20);
+        stopMeasureButton.setFixedSize(75, 20);        
         exitButton.setFixedSize(75, 20);
         Frame buttonsFrame=new Frame();
+        if(model.Main.router instanceof StandardChangeable){
+            setGDMTButton.setFixedSize(75, 20);
+            set2PlusButton.setFixedSize(75, 20);
+            setMultimodeButton.setFixedSize(75, 20);
+            setGDMTButton.addListener(controller.Main.mainEventListener);
+            setGDMTButton.setAction("SETGDMT");
+            set2PlusButton.addListener(controller.Main.mainEventListener);
+            set2PlusButton.setAction("SET2PLUS");
+            setMultimodeButton.addListener(controller.Main.mainEventListener);
+            setMultimodeButton.setAction("SETMULTI");
+            buttonsFrame.addNext(setGDMTButton);
+            buttonsFrame.addNext(set2PlusButton);
+            buttonsFrame.addLast(setMultimodeButton);
+        }
         buttonsFrame.addNext(startMeasureButton);
         buttonsFrame.addNext(stopMeasureButton);
-        buttonsFrame.addLast(exitButton);
-
-
+        buttonsFrame.addLast(exitButton);        
         addNext(new Frame());
         addNext(logCheckBox);
         scanEveryInput.setFixedSize(30, fieldHeight);
@@ -246,6 +262,11 @@ public class MainForm extends Form {
                             Menu left = new Menu();
                             left.addItem(sk.createMenuItem(startMeasureButton));
                             left.addItem(sk.createMenuItem(stopMeasureButton));
+                            if(model.Main.router instanceof StandardChangeable){
+                                left.addItem(sk.createMenuItem(setGDMTButton));
+                                left.addItem(sk.createMenuItem(set2PlusButton));
+                                left.addItem(sk.createMenuItem(setMultimodeButton));
+                            }
                             left.addItem(sk.createMenuItem(modemIPChangeButton));
                             if (SoftKeyBar.numberOfKeys() == 1){
                                     left.addItem("-");
@@ -360,6 +381,9 @@ public class MainForm extends Form {
         exitButton.set(Frame.Disabled, true);
         scanEveryInput.set(Frame.Disabled, true);
         logCheckBox.set(Frame.Disabled, true);
+        setGDMTButton.set(Frame.Disabled, true);
+        set2PlusButton.set(Frame.Disabled, true);
+        setMultimodeButton.set(Frame.Disabled, true);
     }
 
     public void measuringStop(){
@@ -370,6 +394,9 @@ public class MainForm extends Form {
         scanEveryInput.set(Frame.Disabled, false);
         logCheckBox.set(Frame.Disabled, false);
         modemIPChangeButton.set(Frame.Disabled, false);
+        setGDMTButton.set(Frame.Disabled, false);
+        set2PlusButton.set(Frame.Disabled, false);
+        setMultimodeButton.set(Frame.Disabled, false);
         connectingHide();
         repaint();
     }
