@@ -13,15 +13,15 @@ public class MobileView extends View{
 
     @Override
     public void showMain() {
+        mainForm = new MainForm();
         mainForm.display();
     }
 
     @Override
     public void showConfig() {
-        if(mainForm==null){
-            mainForm = new MainForm();
-        }else{
+        if(mainForm!=null){
             mainForm.close(0);
+            mainForm=null;
         }
 
         connectionForm = new ConnectionForm();
@@ -97,7 +97,7 @@ public class MobileView extends View{
     @Override
     public void hideConfig() {
         connectionForm.close(0);
-        mainForm.display();
+        showMain();
     }
 
     @Override

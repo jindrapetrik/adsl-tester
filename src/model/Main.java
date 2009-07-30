@@ -39,6 +39,7 @@ public class Main {
     private static boolean debugMode=false;
     private static String lastLogLine="";
     private static MeasureTask measureTask;
+    private static boolean measureStarted=false;
 
     public static void setDebugMode(boolean debugMode) {
         Main.debugMode = debugMode;
@@ -164,6 +165,7 @@ public class Main {
     }
 
     public static void startMeasure() {
+        measureStarted=true;
         router.setDebugMode(debugMode);
         view.Main.view.startMeasurement();
         timer = null;
@@ -194,7 +196,10 @@ public class Main {
         }       
     }
 
-    public static void stopMeasure() {        
+    public static void stopMeasure() {
+        if(!measureStarted)
+            return;
+        measureStarted=false;
         measureTask.measuringStopped=true;
         measureTask.cancel();
         while(measureTask.measuringNow){
