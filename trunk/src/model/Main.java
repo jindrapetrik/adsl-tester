@@ -117,6 +117,22 @@ public class Main {
         }
     }
 
+    public static String replaceStr(String haystack,String needle,String replacement){
+        String ret="";
+        int pos=0;
+
+        int npos=-1;
+        do{
+            npos=haystack.substring(pos).indexOf(needle);
+            if(npos==-1)
+                break;
+            ret+=haystack.substring(pos,pos+npos)+replacement;
+            pos=pos+npos+needle.length();
+        }while(npos>-1);
+        ret=ret+haystack.substring(pos);
+        return ret;
+    }
+
     public static void main(String args[]) {
         Application.startApplication(args);
         routers.add(new Huawei());

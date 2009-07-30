@@ -68,11 +68,12 @@ public abstract class Router {
         if (connected) {
             return true;
         }
-        model.Main.connectingStart();
+        model.Main.connectingStart();        
         sock = new Socket(InetAddress.getByName(adress), port);
         is = sock.getInputStream();
         os = sock.getOutputStream();
         connected = true;
+        sock.setSoTimeout(100);
         readLine(); //telnet header
         model.Main.connectingFinished();
         return true;
@@ -146,23 +147,29 @@ public abstract class Router {
             }
             do {
                 i = is.read();
+                ProgramLog.println("readline:"+i);
                 if ((i != '\n') && (i != '\r')) {
+                    ProgramLog.println("A");
                     line += (char) i;
+                    ProgramLog.println("B");
                 }
                 if ((i == '\n') && (prev == '\r')) {
                     if (debugMode) {
                         ProgramLog.println("\"");
                     }
+                    ProgramLog.println("C");
                     return line;
                 }
                 if (checkRouterHeader(line)) {
                     if (debugMode) {
                         ProgramLog.println(((char) i) + "\"");
                     }
+                    ProgramLog.println("D");
                     return null;
                 }
                 prev = i;
                 if (i == -1) {
+                    ProgramLog.println("E");
                     break;
                 }
                 if (debugMode) {
