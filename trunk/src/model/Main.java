@@ -38,6 +38,7 @@ public class Main {
     public static int socketTimeout=5000;
     private static boolean debugMode=false;
     private static String lastLogLine="";
+    private static MeasureTask measureTask;
 
     public static void setDebugMode(boolean debugMode) {
         Main.debugMode = debugMode;
@@ -152,8 +153,8 @@ public class Main {
         timer = null;
         timer = new Timer();
         int delay = scanInterval * 1000;
-        
-        timer.schedule(new MeasureTask(), 1, delay);
+        measureTask=new MeasureTask();
+        timer.schedule(measureTask, 1, delay);
 
         if (logEnabled) {
             Calendar cal = Calendar.getInstance();
@@ -178,17 +179,7 @@ public class Main {
     }
 
     public static void stopMeasure() {        
-        if (timer != null) {            
-            try {
-                timer.cancel();
-            } catch (Exception ex) {
-            }
-            timer = null;            
-        }
-
-        while (router.isMeasuring()) {
-                Thread.yield();
-            }
+        measureTask.measuringStopped=true;
 
         if (logEnabled) {
             try {
@@ -197,11 +188,7 @@ public class Main {
             }
             logOutputStream = null;
             logFile = null;
-        }
-        if (router != null) {
-            router.disconnect();            
-        }
-        view.Main.view.measuringStop();
+        }        
     }
 
     public static void connectingStart() {

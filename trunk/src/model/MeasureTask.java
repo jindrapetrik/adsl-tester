@@ -8,7 +8,8 @@ import java.util.TimerTask;
  * @author JPEXS
  */
 public class MeasureTask extends TimerTask{
-    private static boolean measuringNow=false;
+    private boolean measuringNow=false;
+    public boolean measuringStopped=false;
 
     @Override
     public void run() {
@@ -26,6 +27,11 @@ public class MeasureTask extends TimerTask{
         }
         view.Main.view.update();
         measuringNow=false;
+        if(measuringStopped){
+            cancel();
+            Main.router.disconnect();
+            view.Main.view.measuringStop();
+        }
     }
 
 }
