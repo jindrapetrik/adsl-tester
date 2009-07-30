@@ -290,20 +290,21 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
         }
         
         //Decrease powerDown by 80 when greater than 80
-        try{
-            int dbi=powerDown.indexOf(" db");
-            if(dbi>-1){
-                powerDown=powerDown.substring(0,dbi);
+        if(!powerDown.equals("?")){
+            try{
+                int dbi=powerDown.indexOf(" db");
+                if(dbi>-1){
+                    powerDown=powerDown.substring(0,dbi);
+                }
+              int pwdni=Integer.parseInt(powerDown);
+              if(pwdni>80){
+                  pwdni-=80;
+                  powerDown=""+pwdni;
+              }
+            }catch(NumberFormatException nex){
             }
-          int pwdni=Integer.parseInt(powerDown);
-          if(pwdni>80){
-              pwdni-=80;
-              powerDown=""+pwdni;
-          }
-        }catch(NumberFormatException nex){
-        }
         powerDown=powerDown+" db";
-
+        }
         graphData = new int[512];
         int x = 0;
         for (int i = tonestart; i < lines.size(); i++) {
