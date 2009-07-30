@@ -13,6 +13,7 @@ import eve.ui.Label;
 import eve.ui.Menu;
 import eve.ui.MenuItem;
 import eve.ui.MessageBox;
+import eve.ui.Panel;
 import eve.ui.SoftKeyBar;
 import eve.ui.formatted.TextDisplay;
 import model.Main;
@@ -112,12 +113,15 @@ public class MainForm extends Form {
     private TextDisplay sysVersionTextDisplay = new TextDisplay();
     private Label syncNumLabel=new Label(view.Main.language.syncNumber);
     private TextDisplay syncNumTextDisplay = new TextDisplay();
+    private Label bootBaseVersionLabel = new Label(view.Main.language.bootBaseVersion);
+    private TextDisplay bootBaseVersionTextDisplay = new TextDisplay();
+
     public MainForm() {        
         int fieldHeight=19;
         int fullFieldWidth=170;
         int halfFieldWidth=90;
-        int twoFieldsWidth=60;
-
+        int twoFieldsWidth=70;
+        setFixedSize(240,320);
         
         
         setFont(new Font("",0,12));
@@ -128,7 +132,7 @@ public class MainForm extends Form {
         exitButton.addListener(controller.Main.mainEventListener);
         modemIPChangeButton.setAction("CHANGEIP");
         modemIPChangeButton.addListener(controller.Main.mainEventListener);
-        modemIPChangeButton.setFixedSize(100, 16);
+        modemIPChangeButton.setFixedSize(90, 16);
         startMeasureButton.setAction("START");
         startMeasureButton.addListener(controller.Main.mainEventListener);
         stopMeasureButton.setAction("STOP");
@@ -199,10 +203,16 @@ public class MainForm extends Form {
         addNext(sysVersionLabel);
         addLast(sysVersionTextDisplay);        
 
-        modemTypeTextDisplay.setFixedSize(fullFieldWidth, fieldHeight);
+        Panel pnlAdd=new Panel();
+
+        modemTypeTextDisplay.setFixedSize(twoFieldsWidth+30, fieldHeight);
         addNext(modemTypeLabel);
-        addLast(modemTypeTextDisplay);        
-        
+        pnlAdd.addNext(modemTypeTextDisplay);
+
+        bootBaseVersionTextDisplay.setFixedSize(40, fieldHeight);
+        pnlAdd.addNext(bootBaseVersionLabel);
+        pnlAdd.addLast(bootBaseVersionTextDisplay);
+        addLast(pnlAdd);
         addNext(modemIPAddressLabel);
         if (SoftKeyBar.getType() == SoftKeyBar.TYPE_NONE){
             modemIPAddressTextDisplay.setFixedSize(twoFieldsWidth, fieldHeight);
@@ -328,6 +338,7 @@ public class MainForm extends Form {
             maxSpeedUpTextDisplay.setText(Main.router.getMaxSpeedUp());
             syncNumTextDisplay.setText(""+Main.router.getSyncNum());
             sysVersionTextDisplay.setText(Main.router.getSysVersion());
+            bootBaseVersionTextDisplay.setText(Main.router.getBootBaseVersion());
             repaint();
         } catch (NullPointerException nex) {
         }
@@ -384,6 +395,7 @@ public class MainForm extends Form {
         setGDMTButton.set(Frame.Disabled, true);
         set2PlusButton.set(Frame.Disabled, true);
         setMultimodeButton.set(Frame.Disabled, true);
+        repaint();
     }
 
     public void measuringStop(){
