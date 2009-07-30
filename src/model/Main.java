@@ -196,7 +196,16 @@ public class Main {
 
     public static void stopMeasure() {        
         measureTask.measuringStopped=true;
-
+        measureTask.cancel();
+        while(measureTask.measuringNow){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                
+            }
+        }
+        Main.router.disconnect();
+        view.Main.view.measuringStop();
         if (logEnabled) {
             try {
                 logOutputStream.close();
