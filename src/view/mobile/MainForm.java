@@ -107,7 +107,7 @@ public class MainForm extends Form {
     private Button exitButton = new Button(view.Main.language.exit);
     private StatusDisplay statusDisplay = new StatusDisplay();
 
-    private O2TesterLabel O2ModemTestLabel=new O2TesterLabel();
+    private MiniLogo logo=new MiniLogo();
     private TextDisplay versionTextDisplay=new TextDisplay();
     private Label sysVersionLabel=new Label(view.Main.language.sysVersion);
     private TextDisplay sysVersionTextDisplay = new TextDisplay();
@@ -116,13 +116,47 @@ public class MainForm extends Form {
     private Label bootBaseVersionLabel = new Label(view.Main.language.bootBaseVersion);
     private TextDisplay bootBaseVersionTextDisplay = new TextDisplay();
 
+    private Button tabLineMeasureButton=new Button(view.Main.language.lineMeasure);
+    private Button tabModemSettingsButton=new Button(view.Main.language.modemSettings);
+    private Frame tabLineMeasureFrame=new Frame();
+    private Frame tabModemSettingsFrame=new Frame();
+    private Label ATUCLabel = new Label(view.Main.language.ATUC);
+    private TextDisplay ATUCTextDisplay = new TextDisplay();
+
+    private Label WANMTULabel = new Label(view.Main.language.WANMTU);
+    private TextDisplay WANMTUTextDisplay = new TextDisplay();
+
+    private Label WANIPLabel = new Label(view.Main.language.WANIP);
+    private TextDisplay WANIPTextDisplay = new TextDisplay();
+
+    private Label ES24hLabel = new Label(view.Main.language.ES24h);
+    private TextDisplay ES24hTextDisplay = new TextDisplay();
+
     public MainForm() {        
         int fieldHeight=19;
-        int fullFieldWidth=170;
-        int halfFieldWidth=90;
-        int twoFieldsWidth=70;
-        
-        
+        int fullFieldWidth=150;
+        int halfFieldWidth=85;
+        int twoFieldsWidth=80;
+
+        tabLineMeasureFrame.setBorder(Frame.EDGE_RAISED, 2);
+        tabLineMeasureFrame.setPreferredSize(235, 240);
+        tabModemSettingsFrame.setPreferredSize(235, 220);
+        tabModemSettingsFrame.setBorder(Frame.EDGE_RAISED, 2);
+        tabLineMeasureButton.setFixedSize(100, 25);
+        tabModemSettingsButton.setFixedSize(100, 25);
+
+
+        tabLineMeasureButton.action="TAB0";
+        tabLineMeasureButton.addListener(controller.Main.mainEventListener);
+        tabModemSettingsButton.action="TAB1";
+        tabModemSettingsButton.addListener(controller.Main.mainEventListener);
+        Panel tabHeadersPanel=new Panel();
+        tabHeadersPanel.setFixedSize(240, 27);        
+        tabHeadersPanel.addNext(tabModemSettingsButton);
+        tabHeadersPanel.addNext(tabLineMeasureButton);
+        tabHeadersPanel.addLast(logo);
+        addLast(tabHeadersPanel);
+
         setFont(new Font("",0,12));
         scanEveryInput.textCase=Input.CASE_NUMBERS;
         scanEveryInput.setText(""+model.Main.scanInterval);
@@ -137,99 +171,154 @@ public class MainForm extends Form {
         stopMeasureButton.setAction("STOP");
         stopMeasureButton.addListener(controller.Main.mainEventListener);
         
-        //addNext(O2ModemTestLabel,Frame.CENTER,Frame.CENTER);
-        addNext(statusDisplay);
-        addNext(downStreamLabel);
+        //addNext(O2ModemTestLabel,Frame.CENTER,Frame.CENTER);        
+        tabLineMeasureFrame.addNext(new Panel());
+        tabLineMeasureFrame.addNext(downStreamLabel);
         downStreamLabel.setFixedSize(halfFieldWidth, fieldHeight);
-        addLast(upStreamLabel);
+        tabLineMeasureFrame.addLast(upStreamLabel);
         upStreamLabel.setFixedSize(halfFieldWidth, fieldHeight);
 
         speedDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         speedUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(speedLabel);
-        addNext(speedDownTextDisplay);        
-        addLast(speedUpTextDisplay);        
+        tabLineMeasureFrame.addNext(speedLabel);
+        tabLineMeasureFrame.addNext(speedDownTextDisplay);
+        tabLineMeasureFrame.addLast(speedUpTextDisplay);
 
         maxSpeedDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         maxSpeedUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(maxSpeedLabel);
-        addNext(maxSpeedDownTextDisplay);        
-        addLast(maxSpeedUpTextDisplay);
+        tabLineMeasureFrame.addNext(maxSpeedLabel);
+        tabLineMeasureFrame.addNext(maxSpeedDownTextDisplay);
+        tabLineMeasureFrame.addLast(maxSpeedUpTextDisplay);
         
 
         marginDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         marginUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(marginLabel);
-        addNext(marginDownTextDisplay);        
-        addLast(marginUpTextDisplay);
+        tabLineMeasureFrame.addNext(marginLabel);
+        tabLineMeasureFrame.addNext(marginDownTextDisplay);
+        tabLineMeasureFrame.addLast(marginUpTextDisplay);
         
 
         attenuationDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         attenuationUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(attenuationLabel);
-        addNext(attenuationDownTextDisplay);        
-        addLast(attenuationUpTextDisplay);        
+        tabLineMeasureFrame.addNext(attenuationLabel);
+        tabLineMeasureFrame.addNext(attenuationDownTextDisplay);
+        tabLineMeasureFrame.addLast(attenuationUpTextDisplay);
 
         powerDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         powerUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(powerLabel);
-        addNext(powerDownTextDisplay);        
-        addLast(powerUpTextDisplay);        
+        tabLineMeasureFrame.addNext(powerLabel);
+        tabLineMeasureFrame.addNext(powerDownTextDisplay);
+        tabLineMeasureFrame.addLast(powerUpTextDisplay);
 
         
         CRCDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         CRCUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(CRCLabel);
-        addNext(CRCDownTextDisplay);
-        addLast(CRCUpTextDisplay);
+        tabLineMeasureFrame.addNext(CRCLabel);
+        tabLineMeasureFrame.addNext(CRCDownTextDisplay);
+        tabLineMeasureFrame.addLast(CRCUpTextDisplay);
 
         FECDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         FECUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(FECLabel);
-        addNext(FECDownTextDisplay);        
-        addLast(FECUpTextDisplay);
+        tabLineMeasureFrame.addNext(FECLabel);
+        tabLineMeasureFrame.addNext(FECDownTextDisplay);
+        tabLineMeasureFrame.addLast(FECUpTextDisplay);
         
 
         HECDownTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
         HECUpTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
-        addNext(HECLabel);
-        addNext(HECDownTextDisplay);        
-        addLast(HECUpTextDisplay);
+        tabLineMeasureFrame.addNext(HECLabel);
+        tabLineMeasureFrame.addNext(HECDownTextDisplay);
+        tabLineMeasureFrame.addLast(HECUpTextDisplay);
         
+        Panel group2=new Panel();
+
+
+        modemTypeTextDisplay.setFixedSize(fullFieldWidth, fieldHeight);
+        group2.addNext(modemTypeLabel);
+        group2.addLast(modemTypeTextDisplay);
+        Panel group21=new Panel();
+        dslStandardTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
+        group2.addNext(dslStandardLabel);
+        group21.addNext(dslStandardTextDisplay);
+        group21.addLast(encapsulationLabel);
+        group2.addLast(group21);
+        
+        Panel group22=new Panel();
+        protocolTextDisplay.setFixedSize(halfFieldWidth, fieldHeight);
+        group2.addNext(protocolLabel);
+        group22.addNext(protocolTextDisplay);
+
+        
+
+        encapsulationTextDisplay.setFixedSize(70, fieldHeight);
+        
+        group22.addLast(encapsulationTextDisplay);
+        group2.addLast(group22);
+        vpivciTextDisplay.setFixedSize(fullFieldWidth, fieldHeight);
+        group2.addNext(vpivciLabel);
+        group2.addLast(vpivciTextDisplay);
 
 
         sysVersionTextDisplay.setFixedSize(fullFieldWidth, fieldHeight);
-        addNext(sysVersionLabel);
-        addLast(sysVersionTextDisplay);        
+        group2.addNext(sysVersionLabel);
+        group2.addLast(sysVersionTextDisplay);
+       
 
-        Panel pnlAdd=new Panel();
-
-        modemTypeTextDisplay.setFixedSize(twoFieldsWidth+30, fieldHeight);
-        addNext(modemTypeLabel);
-        pnlAdd.addNext(modemTypeTextDisplay);
-
-        bootBaseVersionTextDisplay.setFixedSize(40, fieldHeight);
-        pnlAdd.addNext(bootBaseVersionLabel);
-        pnlAdd.addLast(bootBaseVersionTextDisplay);
-        addLast(pnlAdd);
-        addNext(modemIPAddressLabel);
-        if (SoftKeyBar.getType() == SoftKeyBar.TYPE_NONE){
-            modemIPAddressTextDisplay.setFixedSize(twoFieldsWidth, fieldHeight);
-            addNext(modemIPAddressTextDisplay);
-            addLast(modemIPChangeButton);            
-        }
-        else{
-            modemIPAddressTextDisplay.setFixedSize(fullFieldWidth, fieldHeight);
-            addLast(modemIPAddressTextDisplay);
-        }
+        bootBaseVersionTextDisplay.setFixedSize(fullFieldWidth, fieldHeight);
+        group2.addNext(bootBaseVersionLabel);
+        group2.addLast(bootBaseVersionTextDisplay);
+        group2.addNext(modemIPAddressLabel);
+        modemIPAddressTextDisplay.setFixedSize(fullFieldWidth, fieldHeight);
+        group2.addLast(modemIPAddressTextDisplay);
 
         uptimeTextDisplay.setFixedSize(twoFieldsWidth, fieldHeight);
-        syncNumTextDisplay.setFixedSize(30, fieldHeight);
-        addNext(uptimeLabel);
-        addNext(uptimeTextDisplay);        
-        addNext(syncNumLabel);
-        addLast(syncNumTextDisplay,Frame.RIGHT,Frame.RIGHT);
+        syncNumTextDisplay.setFixedSize(40, fieldHeight);
+        statusTextDisplay.setFixedSize(40, fieldHeight);
+
+        tabModemSettingsFrame.addLast(group2);
+
+        Panel group1=new Panel();
+        group1.addNext(uptimeLabel);
+        group1.addNext(uptimeTextDisplay);
+        group1.addNext(statusLabel);
+        group1.addLast(statusTextDisplay);
         
+        
+        
+
+        WANMTUTextDisplay.setFixedSize(40, fieldHeight);
+        WANIPTextDisplay.setFixedSize(twoFieldsWidth, fieldHeight);
+        group1.addNext(WANIPLabel);
+        group1.addNext(WANIPTextDisplay);
+        group1.addNext(WANMTULabel);
+        group1.addLast(WANMTUTextDisplay);
+
+
+        
+        ES24hTextDisplay.setFixedSize(twoFieldsWidth, fieldHeight);
+        group1.addNext(ES24hLabel);
+        group1.addNext(ES24hTextDisplay);
+        group1.addNext(syncNumLabel);
+        group1.addLast(syncNumTextDisplay);
+
+        Panel group0=new Panel();
+        ATUCTextDisplay.setFixedSize(40, fieldHeight);
+        group0.addNext(ATUCLabel);
+        group0.addNext(ATUCTextDisplay);
+        nameTextDisplay.setFixedSize(50, fieldHeight);
+        group0.addNext(nameLabel);
+        group0.addNext(nameTextDisplay);
+        passwordTextDisplay.setFixedSize(50, fieldHeight);
+        group0.addNext(passwordLabel);
+        group0.addLast(passwordTextDisplay);
+
+
+        tabModemSettingsFrame.addLast(group1);
+        tabModemSettingsFrame.addLast(group0);
+        addLast(tabLineMeasureFrame);
+        addLast(tabModemSettingsFrame);
+
+
 
         startMeasureButton.setFixedSize(75, 20);
         stopMeasureButton.setFixedSize(75, 20);        
@@ -250,17 +339,23 @@ public class MainForm extends Form {
             buttonsFrame.addLast(setMultimodeButton);
         }
         buttonsFrame.addNext(startMeasureButton);
-        buttonsFrame.addNext(stopMeasureButton);
-        buttonsFrame.addLast(exitButton);        
-        addNext(new Frame());
-        addNext(logCheckBox);
+        buttonsFrame.addNext(stopMeasureButton);        
+        buttonsFrame.addLast(exitButton);
+
+
+        Panel measurePanel=new Panel();
+        measurePanel.addNext(logCheckBox);
         scanEveryInput.setFixedSize(30, fieldHeight);
-        addNext(scanEveryLabel);
-        addLast(scanEveryInput,Frame.RIGHT,Frame.RIGHT);
+        measurePanel.addNext(scanEveryLabel);
+        measurePanel.addNext(scanEveryInput,Frame.RIGHT,Frame.RIGHT);
+        if (SoftKeyBar.getType() == SoftKeyBar.TYPE_NONE){
+            measurePanel.addLast(modemIPChangeButton);
+        }
+        addLast(measurePanel);
+        addLast(statusDisplay);
 
 
-
-
+   
 
 
 
@@ -287,13 +382,37 @@ public class MainForm extends Form {
                             setSoftKeyBarFor(null, sk);
 
              }
-
+             
              //fullScreenOnPDA();
     }
 
+    public void setTab(int index){
+        if(index==0){
+            tabModemSettingsFrame.setHidden(true, false);
+            tabLineMeasureFrame.setHidden(false, true);
+            
+        }
+        if(index==1){
+            tabLineMeasureFrame.setHidden(true, false);
+            tabModemSettingsFrame.setHidden(false, true);            
+        }
+        (new Thread(){
+
+            @Override
+            public void run() {
+                repaint();
+                //tabLineMeasureFrame.repaint();
+                //tabModemSettingsFrame.repaint();
+            }
+
+        }).start();
+    }
+
     public void display() {
-        stopMeasureButton.set(Frame.Disabled, true);
+        stopMeasureButton.set(Frame.Disabled, true);        
         show();
+        tabModemSettingsFrame.setHidden(false, true);
+        tabLineMeasureFrame.setHidden(true, true);
     }
 
     public void update() {
@@ -337,6 +456,10 @@ public class MainForm extends Form {
             maxSpeedUpTextDisplay.setText(Main.router.getMaxSpeedUp());
             syncNumTextDisplay.setText(""+Main.router.getSyncNum());
             sysVersionTextDisplay.setText(Main.router.getSysVersion());
+            ATUCTextDisplay.setText(Main.router.getATUC());
+            WANMTUTextDisplay.setText(Main.router.getWANMTU());
+            WANIPTextDisplay.setText(Main.router.getWANIP());
+            ES24hTextDisplay.setText(Main.router.getES24h());
             bootBaseVersionTextDisplay.setText(Main.router.getBootBaseVersion());
             repaint();
         } catch (NullPointerException nex) {

@@ -11,22 +11,21 @@ import eve.ui.Frame;
  *
  * @author JPEXS
  */
-public class O2TesterLabel extends Frame {
-
-    private Font smallFont;
+public class MiniLogo extends Frame{
     private Font normalFont;
+    private Font smallFont;
 
-    public O2TesterLabel() {
-        super();
-        setFixedSize(40, 25);
-        normalFont = new Font("", Font.BOLD, 12);
-        smallFont = new Font(normalFont.getName(), normalFont.getStyle(), normalFont.getSize() * 2 / 3);
+    public MiniLogo(){
+        setFixedSize(25, 25);
+        normalFont = new Font("", 0, 18);
+        smallFont = new Font("", Font.BOLD, 10);
+
     }
 
     @Override
     public void doPaint(Graphics g, Rect r) {
         super.doPaint(g, r);
-        int labelLeft=10;
+        int labelLeft=5;
 
         g.setColor(new Color(0, 0, 128));
         FontMetrics fm = g.getFontMetrics(normalFont);
@@ -34,9 +33,10 @@ public class O2TesterLabel extends Frame {
         g.setFont(normalFont);
         g.drawText("O", labelLeft, 0);
         g.setFont(smallFont);
-        g.drawText("2", labelLeft+fm.getTextWidth("O"), fm.getHeight() /2);
+        g.drawText("2", labelLeft+fm.getTextWidth("O")*95/100, fm.getHeight()-fmSmall.getHeight());
         g.setFont(normalFont);
-        g.drawText(" tester", labelLeft+fm.getTextWidth("O")+fmSmall.getTextWidth("2"), 0);
-
     }
+
+
+
 }

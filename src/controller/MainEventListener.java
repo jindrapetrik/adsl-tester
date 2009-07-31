@@ -61,6 +61,11 @@ public class MainEventListener implements EventListener{
                 Main.exit();
             }
 
+            if(cev.action.indexOf("TAB")==0){
+                int tabId=Integer.parseInt(cev.action.substring(3));
+                view.Main.view.setTab(tabId);
+            }
+
         }
     }
 

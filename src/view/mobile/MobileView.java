@@ -129,4 +129,11 @@ public class MobileView extends View{
     public String getConnectionPassword() {
         return connectionForm.getConnectionPassword();
     }
+
+    @Override
+    public void setTab(int index) {
+        mainForm.setTab(index);
+    }
+
+
 }

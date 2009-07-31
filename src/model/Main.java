@@ -29,7 +29,7 @@ public class Main {
     private static boolean logEnabled = false;
     private static File logFile;
     private static FileOutputStream logOutputStream;
-    public static String version="Beta 10";
+    public static String version="Beta 11";
     public static String defaultIP="10.0.0.138";
     public static int defaultPort=23;
     public static int scanInterval=2;
