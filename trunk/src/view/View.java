@@ -49,5 +49,7 @@ public abstract class View {
 
     public abstract String getConnectionUserName();
     public abstract String getConnectionPassword();
+    public void setTab(int index){
+    }
 
 }

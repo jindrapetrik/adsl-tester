@@ -73,7 +73,7 @@ public class Language {
     public String maxSpeedUp="Max speed up";
     public String maxSpeed="Max speed";
     public String sysVersion="SW version";
-    public String bootBaseVersion="Bbase";
+    public String bootBaseVersion="Bootbase v.";
     public String syncNumber="Sync num";
     public String ATUC="ATUC";
     public String WANMTU="WAN mtu";
