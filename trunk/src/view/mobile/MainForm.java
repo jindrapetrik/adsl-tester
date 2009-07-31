@@ -121,7 +121,6 @@ public class MainForm extends Form {
         int fullFieldWidth=170;
         int halfFieldWidth=90;
         int twoFieldsWidth=70;
-        setFixedSize(240,320);
         
         
         setFont(new Font("",0,12));
