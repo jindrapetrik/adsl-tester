@@ -104,7 +104,8 @@ public class MobileView extends View{
     @Override
     public void hideConfig() {
         connectionForm.close(0);
-        showMain();
+        if(model.Main.router!=null)
+          showMain();
     }
 
     @Override

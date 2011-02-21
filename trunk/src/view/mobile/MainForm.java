@@ -1,18 +1,14 @@
 package view.mobile;
 
 import eve.fx.Font;
-import eve.fx.gui.WindowConstants;
 import eve.ui.Application;
 import eve.ui.Button;
 import eve.ui.CheckBox;
 import eve.ui.Form;
 import eve.ui.Frame;
-import eve.ui.Gui;
 import eve.ui.Input;
 import eve.ui.Label;
 import eve.ui.Menu;
-import eve.ui.MenuItem;
-import eve.ui.MessageBox;
 import eve.ui.Panel;
 import eve.ui.SoftKeyBar;
 import eve.ui.formatted.TextDisplay;
@@ -350,8 +346,7 @@ public class MainForm extends Form {
         //measurePanel.addNext(logCheckBox);
         //scanEveryInput.setFixedSize(30, fieldHeight);
         //measurePanel.addNext(scanEveryLabel);
-        //measurePanel.addNext(scanEveryInput,Frame.RIGHT,Frame.RIGHT);
-
+        //measurePanel.addNext(scanEveryInput,Frame.RIGHT,Frame.RIGHT);        
         if (SoftKeyBar.getType() == SoftKeyBar.TYPE_NONE){
             measurePanel.addNext(statusDisplay);
             measurePanel.addLast(modemIPChangeButton);
@@ -388,7 +383,7 @@ public class MainForm extends Form {
                             sk.setKey(1, view.Main.language.actions,left);
                             setSoftKeyBarFor(null, sk);
 
-             }             
+             }        
              //fullScreenOnPDA();
     }
 
@@ -415,7 +410,7 @@ public class MainForm extends Form {
     }
 
     public void display() {
-        stopMeasureButton.set(Frame.Disabled, true);        
+        stopMeasureButton.set(Frame.Disabled, true);
         show();
         tabModemSettingsFrame.setHidden(false, true);
         tabLineMeasureFrame.setHidden(true, true);

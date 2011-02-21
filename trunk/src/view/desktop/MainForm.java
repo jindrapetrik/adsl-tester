@@ -51,12 +51,17 @@ public class MainForm extends Form {
     private TextDisplay powerDownTextDisplay = new TextDisplay();
     private Label attenuationDownLabel = new Label(view.Main.language.attenuationDown);
     private TextDisplay attenuationDownTextDisplay = new TextDisplay();
+    private Label inpDownLabel = new Label(view.Main.language.inpDown);
+    private TextDisplay inpDownTextDisplay = new TextDisplay();
+
     private Label marginUpLabel = new Label(view.Main.language.marginUp);
     private TextDisplay marginUpTextDisplay = new TextDisplay();
     private Label powerUpLabel = new Label(view.Main.language.powerUp);
     private TextDisplay powerUpTextDisplay = new TextDisplay();
     private Label attenuationUpLabel = new Label(view.Main.language.attenuationUp);
     private TextDisplay attenuationUpTextDisplay = new TextDisplay();
+    private Label inpUpLabel = new Label(view.Main.language.inpUp);
+    private TextDisplay inpUpTextDisplay = new TextDisplay();
     private Label dslStandardLabel = new Label(view.Main.language.dslStandard);
     private TextDisplay dslStandardTextDisplay = new TextDisplay();
     private Label speedDownLabel = new Label(view.Main.language.speedDown);
@@ -147,6 +152,7 @@ public class MainForm extends Form {
         lineMeasureRow1Frame.addNext(maxSpeedDownLabel);
         lineMeasureRow1Frame.addNext(marginDownLabel);
         lineMeasureRow1Frame.addNext(attenuationDownLabel);
+        lineMeasureRow1Frame.addNext(inpDownLabel);
         lineMeasureRow1Frame.addLast(powerDownLabel);
 
 
@@ -161,6 +167,8 @@ public class MainForm extends Form {
         marginDownTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
         lineMeasureRow1Frame.addNext(attenuationDownTextDisplay);
         attenuationDownTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
+        lineMeasureRow1Frame.addNext(inpDownTextDisplay);
+        inpDownTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
         lineMeasureRow1Frame.addLast(powerDownTextDisplay);
         powerDownTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
 
@@ -168,6 +176,7 @@ public class MainForm extends Form {
         lineMeasureRow1Frame.addNext(maxSpeedUpLabel);
         lineMeasureRow1Frame.addNext(marginUpLabel);        
         lineMeasureRow1Frame.addNext(attenuationUpLabel);
+        lineMeasureRow1Frame.addNext(inpUpLabel);
         lineMeasureRow1Frame.addLast(powerUpLabel);
 
         lineMeasureRow1Frame.addNext(speedUpTextDisplay);
@@ -177,7 +186,9 @@ public class MainForm extends Form {
         lineMeasureRow1Frame.addNext(marginUpTextDisplay);
         marginUpTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
         lineMeasureRow1Frame.addNext(attenuationUpTextDisplay);
-        attenuationUpTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);                      
+        attenuationUpTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
+        lineMeasureRow1Frame.addNext(inpUpTextDisplay);
+        inpUpTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
         lineMeasureRow1Frame.addLast(powerUpTextDisplay);
         powerUpTextDisplay.setFixedSize(textDisplayWidth, textDisplayHeight);
 
@@ -440,6 +451,9 @@ public class MainForm extends Form {
             WANIPTextDisplay.setText(Main.router.getWANIP());
             ES24hTextDisplay.setText(Main.router.getES24h());
             bootBaseVersionTextDisplay.setText(Main.router.getBootBaseVersion());
+
+            inpDownTextDisplay.setText(Main.router.getInpDown());
+            inpUpTextDisplay.setText(Main.router.getInpUp());
             repaint();
         } catch (NullPointerException nex) {
         }

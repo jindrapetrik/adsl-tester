@@ -147,29 +147,29 @@ public abstract class Router {
             }
             do {
                 i = is.read();
-                ProgramLog.println("readline:"+i);
+                //ProgramLog.println("readline:"+i);
                 if ((i != '\n') && (i != '\r')) {
-                    ProgramLog.println("A");
+                    //ProgramLog.println("A");
                     line += (char) i;
-                    ProgramLog.println("B");
+                    //ProgramLog.println("B");
                 }
                 if ((i == '\n') && (prev == '\r')) {
                     if (debugMode) {
                         ProgramLog.println("\"");
                     }
-                    ProgramLog.println("C");
+                    //ProgramLog.println("C");
                     return line;
                 }
                 if (checkRouterHeader(line)) {
                     if (debugMode) {
                         ProgramLog.println(((char) i) + "\"");
                     }
-                    ProgramLog.println("D");
+                   // ProgramLog.println("D");
                     return null;
                 }
                 prev = i;
                 if (i == -1) {
-                    ProgramLog.println("E");
+                    //ProgramLog.println("E");
                     break;
                 }
                 if (debugMode) {

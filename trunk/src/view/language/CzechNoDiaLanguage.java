@@ -59,5 +59,8 @@ public class CzechNoDiaLanguage extends Language {
         advancedConfig="Rozsirene";
         actions="Akce";
         bootBaseVersion="Bootbase v.";
+        inpDown="INP down";
+        inpUp="INP up";
+
     }
 }
