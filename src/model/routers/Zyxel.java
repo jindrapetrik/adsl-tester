@@ -213,6 +213,8 @@ public class Zyxel extends MeasuredRouter implements StandardChangeable{
 
         WANMTU="?";
         WANIP="?";
+        inpDown="?";
+        inpUp="?";
 
         //WAN MTU,IP
         lines = sendRequest("ip ifconfig");

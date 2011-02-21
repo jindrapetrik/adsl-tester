@@ -28,7 +28,7 @@ public class Main {
     private static boolean logEnabled = false;
     private static File logFile;
     private static FileOutputStream logOutputStream;
-    public static String version="2009";
+    public static String version="2011.1";
     public static String defaultIP="10.0.0.138";
     public static int defaultPort=23;
     public static int scanInterval=2;
@@ -138,6 +138,7 @@ public class Main {
         routers.add(new Huawei());
         routers.add(new DLink_584_684());
         routers.add(new DLink_362_664());
+        routers.add(new DLink_DVA_G3671B());
         routers.add(new Zyxel());
 
         loadConfig();

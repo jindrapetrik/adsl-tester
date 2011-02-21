@@ -54,6 +54,18 @@ public abstract class MeasuredRouter extends Router {
     protected String ES24h = "";
     protected String type = "Router";
     protected String bootBaseVersion = "";
+    protected String inpUp = "";
+    protected String inpDown = "";
+
+    public String getInpDown() {
+        return inpDown;
+    }
+
+    public String getInpUp() {
+        return inpUp;
+    }
+
+    
 
     public String getBootBaseVersion() {
         return bootBaseVersion;

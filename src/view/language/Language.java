@@ -85,4 +85,7 @@ public class Language {
     public String advancedConfig="Advanced";
     public String actions="Actions";
 
+    public String inpDown="INP down";
+    public String inpUp="INP up";
+
 }

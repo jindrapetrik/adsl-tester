@@ -59,5 +59,7 @@ public class CzechLanguage extends Language {
         advancedConfig="Rozšíøené";
         actions="Akce";
         bootBaseVersion="Bootbase v.";
+        inpDown="INP down";
+        inpUp="INP up";
     }
 }

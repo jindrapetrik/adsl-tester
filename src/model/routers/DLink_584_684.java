@@ -3,7 +3,6 @@ package model.routers;
 import java.io.IOException;
 import model.MeasuredRouter;
 import java.util.ArrayList;
-import model.ProgramLog;
 
 /**
  * DLink router
@@ -38,17 +37,19 @@ public class DLink_584_684 extends MeasuredRouter {
         password = "?";
         name = "?";
         model = "?";
+        protocol = "?";
+        encapsulation = "?";
         lines = sendRequest("grep VERSION= /etc/versions");
         if (lines.size() > 0) {
-            sysVersion = lines.get(0).substring(8);
+            sysVersion = lines.get(0).substring(8); 
         }
         lines = sendRequest("echo \"begin;connection0:pppoe:settings/password;end\" | cm_cli");
         if (lines.size() > 0) {
-            password = lines.get(0);
+            password = lines.get(0);  
         }
         lines = sendRequest("echo \"begin;connection0:pppoe:settings/username;end\" | cm_cli");
         if (lines.size() > 0) {
-            name = lines.get(0);
+            name = lines.get(0); 
         }
         /*lines = sendRequest("echo \"begin;snmpcm:settings/system/sysname;end\" | cm_cli");
         if (lines.size() > 0) {
@@ -56,7 +57,24 @@ public class DLink_584_684 extends MeasuredRouter {
         }*/
         lines = sendRequest("grep MODEL= /etc/versions");
         if (lines.size() > 0) {
-            model = lines.get(0).substring(6);
+            model = lines.get(0).substring(6); 
+        }
+
+        lines = sendRequest("echo \"begin;encaps0:pppoa:settings/encaps;end\" | cm_cli");
+        if (lines.size() > 0) {
+            String val=lines.get(0).trim();
+            if(val.equals("0")){
+               protocol="PPPoE";
+               encapsulation="LLC";
+            }
+            if(val.equals("1")){
+               protocol="PPPoA";
+               encapsulation="LLC";
+            }
+            if(val.equals("2")){
+               protocol="PPPoA";
+               encapsulation="VC-Mux";
+            }
         }
 
         sendRequest("cd proc/avalanche/");
@@ -93,14 +111,16 @@ public class DLink_584_684 extends MeasuredRouter {
         ATUC = "?";
         syncNum = "?";
         ADSLStatus = "?";
-        protocol = "?";
-        encapsulation = "?";
+        
         ES24h = "?";
         vpivci = "?";
         WANMTU = "?";
         WANIP = "?";
         bootBaseVersion = "?";
-
+        maxSpeedUp = "?";
+        maxSpeedDown = "?";
+        inpDown="?";
+        inpUp="?";
 
             ArrayList<String> lines;
             measureStart();
@@ -123,7 +143,7 @@ public class DLink_584_684 extends MeasuredRouter {
                 break;
             }
         }
-            lines = sendRequest("cat avsar_modem_stats");     
+            lines = sendRequest("cat avsar_modem_stats");
             String s = "";
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).indexOf("US Connection Rate:") > -1) {
@@ -247,7 +267,7 @@ public class DLink_584_684 extends MeasuredRouter {
             for (int i = 0; i < lines.size(); i++) {
                 int g = 0;
                 if (lines.get(i).startsWith("AR7 DSL Modem US Bit Allocation")) {
-                    /* 
+                    /*
 
                      g = 0;
                     for (int y = 0; y < 4; y++) {
@@ -294,6 +314,23 @@ public class DLink_584_684 extends MeasuredRouter {
             }
 
 
+        lines = sendRequest("cat /proc/uptime");
+        if(lines.size()>0){
+            String lin=lines.get(0);
+            String uptimeSecStr=lin.substring(0,lin.indexOf(" "));
+            double uptimeSecD=Double.parseDouble(uptimeSecStr);
+            long uptimeSecL=(long)uptimeSecD;
+            long days=(uptimeSecL/(3600*24));
+            long hours = (uptimeSecL/3600)%24;
+            long tempminutes = uptimeSecL%3600;
+            long minutes = tempminutes/60;
+            long seconds = tempminutes%60;
+            String uptimeStr="";
+            if(days>0) uptimeStr+=days+"d ";
+            if((days>0)||(hours>0)) uptimeStr+=hours+":";
+            uptimeStr+=(minutes<10?"0":"")+minutes+":"+(seconds<10?"0":"")+seconds;
+            uptime=uptimeStr;
+        }
         measureFinish();
 
     }
