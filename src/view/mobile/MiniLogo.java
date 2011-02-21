@@ -16,9 +16,9 @@ public class MiniLogo extends Frame{
     private Font smallFont;
 
     public MiniLogo(){
-        setFixedSize(25, 25);
-        normalFont = new Font("", 0, 18);
-        smallFont = new Font("", Font.BOLD, 10);
+        setFixedSize((int)(25*view.Main.view.zoom), (int)(25*view.Main.view.zoom));
+        normalFont = new Font("", 0, (int)(18*view.Main.view.zoom));
+        smallFont = new Font("", Font.BOLD, (int)(10*view.Main.view.zoom));
 
     }
 

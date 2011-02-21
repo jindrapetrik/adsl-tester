@@ -28,7 +28,7 @@ public class StatusDisplay extends Frame{
 
 
     public StatusDisplay(){        
-        setFixedSize(80, 15);
+        setFixedSize((int)(120*view.Main.view.zoom), (int)(15*view.Main.view.zoom));
     }
 
 
@@ -38,12 +38,12 @@ public class StatusDisplay extends Frame{
         if(displayed){
             g.setColor(new Color(255,0,0));
             g.fillRect(0, 0, getWidth(), getHeight());            
-            Font mujfont=new Font("",0,12);
-            g.setFont(mujfont);
-            FontMetrics fm=g.getFontMetrics(mujfont);
+            Font myfont=new Font("",0,(int)(12*view.Main.view.zoom));
+            g.setFont(myfont);
+            FontMetrics fm=g.getFontMetrics(myfont);
             g.setColor(new Color(255,255,0));
             g.setForeground(new Color(255,255,0));
-            g.drawText(statusText, 10, getHeight()/2-fm.getHeight()/2);
+            g.drawText(statusText, (int)(10*view.Main.view.zoom), getHeight()/2-fm.getHeight()/2);
         }
         else{
             g.setColor(Color.LightGray);

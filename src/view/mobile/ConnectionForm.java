@@ -1,9 +1,12 @@
 package view.mobile;
 
+import eve.fx.Dimension;
+import eve.fx.Font;
 import eve.ui.Button;
 import eve.ui.Choice;
 import eve.ui.Form;
 import eve.ui.Frame;
+import eve.ui.Gui;
 import eve.ui.Input;
 import eve.ui.Label;
 import eve.ui.MessageBox;
@@ -56,6 +59,7 @@ public class ConnectionForm extends Form {
     }
 
     public ConnectionForm() {
+        setFont(new Font("",0,(int)(12*view.Main.view.zoom)));
         addNext(ipLabel);
         addLast(ipInput);
 
@@ -68,14 +72,15 @@ public class ConnectionForm extends Form {
         advancedFrame.addLast(connectionPasswordInput);
         connectionPasswordInput.setText(model.Main.connectionPassword);
         addNext(routerLabel);
+        routersList.setFixedSize((int)(100*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
         addLast(routersList);
         Panel psep=new Panel();
-        psep.setFixedSize(100, 20);
+        psep.setFixedSize((int)(100*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
         addLast(psep);
         addLast(advancedFrame);
         advancedFrame.setBorder(Frame.EDGE_RAISED, 2);
         okButton.setAction("OK");
-        okButton.setPreferredSize(75, 25);
+        okButton.setPreferredSize((int)(75*view.Main.view.zoom), (int)(25*view.Main.view.zoom));
         okButton.addListener(controller.Main.connectionEventListener);
         cancelButton.setAction("CANCEL");
         cancelButton.addListener(controller.Main.connectionEventListener);

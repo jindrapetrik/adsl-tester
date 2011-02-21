@@ -7,6 +7,8 @@ import model.MeasuredRouter;
  * @author JPEXS
  */
 public abstract class View {
+    public double zoom=1.0;
+
     public abstract void showMain();
     public abstract void showConfig();
     public abstract void hideConfig();

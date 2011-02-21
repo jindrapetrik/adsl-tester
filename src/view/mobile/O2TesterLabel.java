@@ -18,8 +18,8 @@ public class O2TesterLabel extends Frame {
 
     public O2TesterLabel() {
         super();
-        setFixedSize(40, 25);
-        normalFont = new Font("", Font.BOLD, 12);
+        setFixedSize((int)(40*view.Main.view.zoom), (int)(25*view.Main.view.zoom));
+        normalFont = new Font("", Font.BOLD, (int)(12*view.Main.view.zoom));
         smallFont = new Font(normalFont.getName(), normalFont.getStyle(), normalFont.getSize() * 2 / 3);
     }
 
