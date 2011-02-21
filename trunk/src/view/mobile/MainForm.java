@@ -132,18 +132,21 @@ public class MainForm extends Form {
     private Label ES24hLabel = new Label(view.Main.language.ES24h);
     private TextDisplay ES24hTextDisplay = new TextDisplay();
 
-    public MainForm() {        
-        int fieldHeight=19;
-        int fullFieldWidth=150;
-        int halfFieldWidth=85;
-        int twoFieldsWidth=80;
+    public MainForm() {
+
+        
+
+        int fieldHeight=(int)(19*view.Main.view.zoom);
+        int fullFieldWidth=(int)(150*view.Main.view.zoom);
+        int halfFieldWidth=(int)(85*view.Main.view.zoom);
+        int twoFieldsWidth=(int)(80*view.Main.view.zoom);
 
         tabLineMeasureFrame.setBorder(Frame.EDGE_RAISED, 2);
-        tabLineMeasureFrame.setPreferredSize(235, 240);
-        tabModemSettingsFrame.setPreferredSize(235, 220);
+        tabLineMeasureFrame.setPreferredSize((int)(235*view.Main.view.zoom), (int)(220*view.Main.view.zoom));
+        tabModemSettingsFrame.setPreferredSize((int)(235*view.Main.view.zoom), (int)(220*view.Main.view.zoom));
         tabModemSettingsFrame.setBorder(Frame.EDGE_RAISED, 2);
-        tabLineMeasureButton.setFixedSize(100, 25);
-        tabModemSettingsButton.setFixedSize(100, 25);
+        tabLineMeasureButton.setFixedSize((int)(100*view.Main.view.zoom), (int)(25*view.Main.view.zoom));
+        tabModemSettingsButton.setFixedSize((int)(100*view.Main.view.zoom), (int)(25*view.Main.view.zoom));
 
 
         tabLineMeasureButton.action="TAB0";
@@ -151,13 +154,13 @@ public class MainForm extends Form {
         tabModemSettingsButton.action="TAB1";
         tabModemSettingsButton.addListener(controller.Main.mainEventListener);
         Panel tabHeadersPanel=new Panel();
-        tabHeadersPanel.setFixedSize(240, 27);        
+        tabHeadersPanel.setFixedSize((int)(240*view.Main.view.zoom), (int)(27*view.Main.view.zoom));
         tabHeadersPanel.addNext(tabModemSettingsButton);
         tabHeadersPanel.addNext(tabLineMeasureButton);
         tabHeadersPanel.addLast(logo);
         addLast(tabHeadersPanel);
 
-        setFont(new Font("",0,12));
+        setFont(new Font("",0,(int)(12*view.Main.view.zoom)));
         scanEveryInput.textCase=Input.CASE_NUMBERS;
         scanEveryInput.setText(""+model.Main.scanInterval);
         title = view.Main.language.mainTitle+" - "+model.Main.version;
@@ -165,7 +168,7 @@ public class MainForm extends Form {
         exitButton.addListener(controller.Main.mainEventListener);
         modemIPChangeButton.setAction("CHANGEIP");
         modemIPChangeButton.addListener(controller.Main.mainEventListener);
-        modemIPChangeButton.setFixedSize(90, 16);
+        modemIPChangeButton.setFixedSize((int)(90*view.Main.view.zoom), (int)(16*view.Main.view.zoom));
         startMeasureButton.setAction("START");
         startMeasureButton.addListener(controller.Main.mainEventListener);
         stopMeasureButton.setAction("STOP");
@@ -250,7 +253,7 @@ public class MainForm extends Form {
 
         
 
-        encapsulationTextDisplay.setFixedSize(70, fieldHeight);
+        encapsulationTextDisplay.setFixedSize((int)(70*view.Main.view.zoom), fieldHeight);
         
         group22.addLast(encapsulationTextDisplay);
         group2.addLast(group22);
@@ -272,8 +275,8 @@ public class MainForm extends Form {
         group2.addLast(modemIPAddressTextDisplay);
 
         uptimeTextDisplay.setFixedSize(twoFieldsWidth, fieldHeight);
-        syncNumTextDisplay.setFixedSize(40, fieldHeight);
-        statusTextDisplay.setFixedSize(40, fieldHeight);
+        syncNumTextDisplay.setFixedSize((int)(40*view.Main.view.zoom), fieldHeight);
+        statusTextDisplay.setFixedSize((int)(40*view.Main.view.zoom), fieldHeight);
 
         tabModemSettingsFrame.addLast(group2);
 
@@ -286,7 +289,7 @@ public class MainForm extends Form {
         
         
 
-        WANMTUTextDisplay.setFixedSize(40, fieldHeight);
+        WANMTUTextDisplay.setFixedSize((int)(40*view.Main.view.zoom), fieldHeight);
         WANIPTextDisplay.setFixedSize(twoFieldsWidth, fieldHeight);
         group1.addNext(WANIPLabel);
         group1.addNext(WANIPTextDisplay);
@@ -302,13 +305,13 @@ public class MainForm extends Form {
         group1.addLast(syncNumTextDisplay);
 
         Panel group0=new Panel();
-        ATUCTextDisplay.setFixedSize(40, fieldHeight);
+        ATUCTextDisplay.setFixedSize((int)(40*view.Main.view.zoom), fieldHeight);
         group0.addNext(ATUCLabel);
         group0.addNext(ATUCTextDisplay);
-        nameTextDisplay.setFixedSize(50, fieldHeight);
+        nameTextDisplay.setFixedSize((int)(50*view.Main.view.zoom), fieldHeight);
         group0.addNext(nameLabel);
         group0.addNext(nameTextDisplay);
-        passwordTextDisplay.setFixedSize(50, fieldHeight);
+        passwordTextDisplay.setFixedSize((int)(50*view.Main.view.zoom), fieldHeight);
         group0.addNext(passwordLabel);
         group0.addLast(passwordTextDisplay);
 
@@ -320,14 +323,14 @@ public class MainForm extends Form {
 
 
 
-        startMeasureButton.setFixedSize(75, 20);
-        stopMeasureButton.setFixedSize(75, 20);        
-        exitButton.setFixedSize(75, 20);
+        startMeasureButton.setFixedSize((int)(75*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
+        stopMeasureButton.setFixedSize((int)(75*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
+        exitButton.setFixedSize((int)(75*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
         Frame buttonsFrame=new Frame();
         if(model.Main.router instanceof StandardChangeable){
-            setGDMTButton.setFixedSize(75, 20);
-            set2PlusButton.setFixedSize(75, 20);
-            setMultimodeButton.setFixedSize(75, 20);
+            setGDMTButton.setFixedSize((int)(75*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
+            set2PlusButton.setFixedSize((int)(75*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
+            setMultimodeButton.setFixedSize((int)(75*view.Main.view.zoom), (int)(20*view.Main.view.zoom));
             setGDMTButton.addListener(controller.Main.mainEventListener);
             setGDMTButton.setAction("SETGDMT");
             set2PlusButton.addListener(controller.Main.mainEventListener);
@@ -344,16 +347,20 @@ public class MainForm extends Form {
 
 
         Panel measurePanel=new Panel();
-        measurePanel.addNext(logCheckBox);
-        scanEveryInput.setFixedSize(30, fieldHeight);
-        measurePanel.addNext(scanEveryLabel);
-        measurePanel.addNext(scanEveryInput,Frame.RIGHT,Frame.RIGHT);
+        //measurePanel.addNext(logCheckBox);
+        //scanEveryInput.setFixedSize(30, fieldHeight);
+        //measurePanel.addNext(scanEveryLabel);
+        //measurePanel.addNext(scanEveryInput,Frame.RIGHT,Frame.RIGHT);
+
         if (SoftKeyBar.getType() == SoftKeyBar.TYPE_NONE){
+            measurePanel.addNext(statusDisplay);
             measurePanel.addLast(modemIPChangeButton);
+        }else{
+            measurePanel.addLast(statusDisplay);
         }
         addLast(measurePanel);
-        addLast(statusDisplay);
 
+        
 
    
 
@@ -381,8 +388,7 @@ public class MainForm extends Form {
                             sk.setKey(1, view.Main.language.actions,left);
                             setSoftKeyBarFor(null, sk);
 
-             }
-             
+             }             
              //fullScreenOnPDA();
     }
 

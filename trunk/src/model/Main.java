@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.TimeZone;
 import java.util.Timer;
 import model.routers.*;
 
@@ -29,7 +28,7 @@ public class Main {
     private static boolean logEnabled = false;
     private static File logFile;
     private static FileOutputStream logOutputStream;
-    public static String version="Beta 11";
+    public static String version="2009";
     public static String defaultIP="10.0.0.138";
     public static int defaultPort=23;
     public static int scanInterval=2;
@@ -160,8 +159,22 @@ public class Main {
         Application.exit(0);
     }
 
+    private static String replaceAll(String s,String characters,String replacement){
+        String out="";
+        loopi:for(int i=0;i<s.length();i++){
+            for(int c=0;c<characters.length();c++){
+                if(characters.charAt(c)==s.charAt(i)){
+                    out+=replacement;
+                    continue loopi;
+                }
+            }
+            out+=s.charAt(i);
+        }
+        return out;
+    }
+
     private static String fixFileName(String name){
-        return name.replaceAll("[\\/]", "_").toLowerCase();
+        return replaceAll(name,"[\\/]", "_").toLowerCase();
     }
 
     public static void startMeasure() {
@@ -182,7 +195,7 @@ public class Main {
             String hr = ""+cal.get(Calendar.HOUR_OF_DAY);
             if(hr.length()==1) hr="0"+hr;
             String time = hr + "_"+min;
-            logFile = new File(fixFileName(router.toString()) + "log" + date + " " + time + ".txt");
+            logFile = new File(fixFileName(router.toString()) + "_log" + date + " " + time + ".txt");
             try {
                 logOutputStream = new FileOutputStream(logFile.toJavaFile());
                 String header=view.Main.language.logHeader;

@@ -1,5 +1,7 @@
 package view.mobile;
 
+import eve.fx.Dimension;
+import eve.ui.Gui;
 import model.MeasuredRouter;
 import view.View;
 
@@ -10,6 +12,11 @@ import view.View;
 public class MobileView extends View{
     public static MainForm mainForm;
     public static ConnectionForm connectionForm;
+
+    public MobileView(){ //240x320   240x268
+        Dimension screen=Gui.getScreenSize();
+        zoom=((double)screen.width)/((double)240);
+    }
 
     @Override
     public void showMain() {
