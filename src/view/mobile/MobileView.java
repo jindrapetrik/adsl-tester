@@ -143,5 +143,15 @@ public class MobileView extends View{
         mainForm.setTab(index);
     }
 
+    @Override
+    public void loggingInDisplay() {
+        mainForm.loggingInDisplay();
+    }
+
+    @Override
+    public void loggingInHide() {
+        mainForm.loggingInHide();
+    }
+
 
 }

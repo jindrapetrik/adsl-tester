@@ -61,5 +61,7 @@ public class CzechLanguage extends Language {
         bootBaseVersion="Bootbase v.";
         inpDown="INP down";
         inpUp="INP up";
+
+        loggingIn="Pøihlašuji...";
     }
 }

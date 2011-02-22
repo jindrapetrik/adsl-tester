@@ -62,5 +62,7 @@ public class CzechNoDiaLanguage extends Language {
         inpDown="INP down";
         inpUp="INP up";
 
+        loggingIn="Prihlasuji...";
+
     }
 }

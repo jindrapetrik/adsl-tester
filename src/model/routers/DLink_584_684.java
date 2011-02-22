@@ -21,12 +21,6 @@ public class DLink_584_684 extends MeasuredRouter {
         return "D-link 584/684";
     }
 
-    @Override
-    public void login() throws IOException {
-        super.login();
-        //dofirstMeasure();
-    }
-
 
 
     @Override

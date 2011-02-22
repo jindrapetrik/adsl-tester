@@ -84,6 +84,7 @@ public abstract class Router {
      */
     public void login() throws IOException {
         connect();
+        Main.loggingInStart();
         sock.setSoTimeout(2000);
         String line = readAndStopAfterChar(':');
         readByte(); //space
@@ -97,9 +98,11 @@ public abstract class Router {
         if (line.toLowerCase().indexOf("password") > -1) {
             sendLine(connectionPassword);
             readLines();
+            Main.loggingInFinished();
             return;
         }
         sock.setSoTimeout(Main.socketTimeout);
+        Main.loggingInFinished();
     }
 
     /**

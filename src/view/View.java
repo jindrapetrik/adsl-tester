@@ -22,6 +22,10 @@ public abstract class View {
 
     public abstract void connectingHide();
 
+    public abstract void loggingInDisplay();
+
+    public abstract void loggingInHide();
+
     public abstract void measuringStart();
 
     public abstract void measuringFinish();

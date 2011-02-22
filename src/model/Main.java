@@ -1,7 +1,9 @@
 package model;
 
+import eve.fx.Picture;
 import eve.io.File;
 import eve.sys.Device;
+import eve.sys.ImageData;
 import eve.ui.Application;
 import eve.ui.Window;
 import java.io.BufferedReader;
@@ -241,6 +243,14 @@ public class Main {
 
     public static void connectingFinished() {
         view.Main.view.connectingHide();
+    }
+
+    public static void loggingInStart() {
+        view.Main.view.loggingInDisplay();
+    }
+
+    public static void loggingInFinished() {
+        view.Main.view.loggingInHide();
     }
 
     public static void measureStart() {

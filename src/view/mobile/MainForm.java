@@ -490,6 +490,7 @@ public class MainForm extends Form {
     }
 
     public void connectingDisplay() {
+        statusDisplay.setType(StatusDisplay.TYPE_YELLOW);
         statusDisplay.setStatusText(view.Main.language.connecting);
         statusDisplay.setDisplayed(true);
         statusDisplay.repaint();
@@ -499,7 +500,19 @@ public class MainForm extends Form {
         statusDisplay.setDisplayed(false);
     }
 
+    public void loggingInDisplay() {
+        statusDisplay.setType(StatusDisplay.TYPE_YELLOW);
+        statusDisplay.setStatusText(view.Main.language.loggingIn);
+        statusDisplay.setDisplayed(true);
+        statusDisplay.repaint();
+    }
+
+    public void loggingInHide() {
+        statusDisplay.setDisplayed(false);
+    }
+
     public void measuringStart() {
+        statusDisplay.setType(StatusDisplay.TYPE_GREEN);
         statusDisplay.setStatusText(view.Main.language.measuring);
         statusDisplay.setDisplayed(true);
     }
@@ -543,6 +556,7 @@ public class MainForm extends Form {
     }
 
     public void displayConnectionError() {
+        statusDisplay.setType(StatusDisplay.TYPE_RED);
         //(new MessageBox(view.Main.language.error, view.Main.language.cannotConnect, MessageBox.MBOK)).execute();
         statusDisplay.setStatusText(view.Main.language.cannotConnect);
         statusDisplay.setDisplayed(true);
