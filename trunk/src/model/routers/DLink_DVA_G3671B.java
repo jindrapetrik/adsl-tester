@@ -3,13 +3,15 @@ package model.routers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import model.Base64Coder;
 import model.Main;
+import model.MeasuredRouter;
 
 /**
  * DLink router
  * @author JPEXS
  */
-public class DLink_DVA_G3671B extends DLink_584_684 {
+public class DLink_DVA_G3671B extends MeasuredRouter {
 
     
 
@@ -20,12 +22,6 @@ public class DLink_DVA_G3671B extends DLink_584_684 {
     @Override
     public String toString() {
         return "D-link DVA-G3671B";
-    }
-
-    @Override
-    public void login() throws IOException {
-        super.login();
-        //dofirstMeasure();
     }
 
 
@@ -43,6 +39,30 @@ public class DLink_DVA_G3671B extends DLink_584_684 {
         if(lines.size()>=2){
             sysVersion=lines.get(0);
             bootBaseVersion=lines.get(1);
+        }
+
+        if(true){
+        lines = sendRequest("dumpcfg\r\n"); //Output of dumfcfg does not contain CRLF at the end so router header cannot be read successfully
+        for(int i=0;i<lines.size();i++){
+            if(lines.get(i).trim().indexOf("<WANPPPConnection instance=\"")==0){
+                for(int j=i+1;j<lines.size();j++){
+                    if(lines.get(j).trim().indexOf("<Username>")==0){
+                        String un=lines.get(j).trim();
+                        un=un.substring(10);
+                        un=un.substring(0,un.indexOf("</"));
+                        name=un;
+                    }
+                    if(lines.get(j).trim().indexOf("<Password>")==0){
+                       String pwBase64=lines.get(j).trim();
+                        pwBase64=pwBase64.substring(10);
+                        pwBase64=pwBase64.substring(0,pwBase64.indexOf("</"));
+                        byte[] decoded=Base64Coder.decode(pwBase64);
+                        password=new String(decoded,0,decoded[decoded.length-1]==0?decoded.length-1:decoded.length);
+                    }
+                    if(lines.get(j).trim().equals("</WANPPPConnection>")) break;
+                }
+            }
+        }
         }
     }
 

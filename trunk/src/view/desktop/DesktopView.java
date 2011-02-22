@@ -129,4 +129,14 @@ public class DesktopView extends View{
        return connectionForm.getConnectionPassword();
     }
 
+    @Override
+    public void loggingInDisplay() {
+        mainForm.loggingInDisplay();
+    }
+
+    @Override
+    public void loggingInHide() {
+        mainForm.loggingInHide();
+    }
+
 }

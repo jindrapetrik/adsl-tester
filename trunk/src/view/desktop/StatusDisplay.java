@@ -14,6 +14,15 @@ import eve.ui.Frame;
 public class StatusDisplay extends Frame{
     private boolean displayed=false;
     private String statusText="";
+    private int type=0;
+
+    public static final int TYPE_RED=0;
+    public static final int TYPE_YELLOW=1;
+    public static final int TYPE_GREEN=2;
+
+    public void setType(int type){
+        this.type=type;
+    }
 
 
     public boolean isDisplayed() {
@@ -36,12 +45,32 @@ public class StatusDisplay extends Frame{
     @Override
     public void doPaint(Graphics g, Rect r) {
         if(displayed){
-            g.setColor(new Color(255,0,0));
+            switch(type){
+                case 0:
+                    g.setColor(new Color(255,0,0));
+                    break;
+                case 1:
+                    g.setColor(new Color(255,255,0));
+                    break;
+                case 2:
+                    g.setColor(new Color(0,128,0));
+                    break;
+            }
             g.fillRect(0, 0, getWidth(), getHeight());            
             Font mujfont=new Font("",0,15);
             g.setFont(mujfont);
             FontMetrics fm=g.getFontMetrics(mujfont);
-            g.setColor(new Color(255,255,0));
+            switch(type){
+                case 0:
+                    g.setColor(new Color(255,255,255));
+                    break;
+                case 1:
+                    g.setColor(new Color(0,0,0));
+                    break;
+                case 2:
+                    g.setColor(new Color(255,255,0));
+                    break;
+            }
             g.setForeground(new Color(255,255,0));
             g.drawText(statusText, 10, getHeight()/2-fm.getHeight()/2);
         }

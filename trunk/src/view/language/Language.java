@@ -88,4 +88,6 @@ public class Language {
     public String inpDown="INP down";
     public String inpUp="INP up";
 
+    public String loggingIn="Logging in...";
+
 }
