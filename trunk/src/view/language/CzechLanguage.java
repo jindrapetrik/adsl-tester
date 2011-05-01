@@ -63,5 +63,12 @@ public class CzechLanguage extends Language {
         inpUp="INP up";
 
         loggingIn="Pøihlašuji...";
+
+        carrier="Nosná";
+        bits="Bitù";
+        frequency="Frekvence";
+        graphFreq="frek.";
+        graphCar="nos.";
+        graphBits="bity";
     }
 }

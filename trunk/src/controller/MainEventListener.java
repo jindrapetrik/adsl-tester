@@ -3,8 +3,10 @@ package controller;
 import eve.sys.Event;
 import eve.sys.EventListener;
 import eve.ui.event.ControlEvent;
+import eve.ui.event.PenEvent;
 import model.Main;
 import model.StandardChangeable;
+import view.desktop.Graph;
 
 /**
  *
@@ -13,6 +15,15 @@ import model.StandardChangeable;
 public class MainEventListener implements EventListener{
 
     public void onEvent(Event ev) {
+        if(ev.type==PenEvent.PEN_MOVE)
+        {
+            if(ev.target instanceof Graph)
+            {
+                Graph graph=(Graph)ev.target;
+                PenEvent pe=(PenEvent)ev;
+                graph.diplayPos(pe.x);
+            }
+        }
         if(ev.type==ControlEvent.PRESSED)
         {
             ControlEvent cev=(ControlEvent)ev;            
