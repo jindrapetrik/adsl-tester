@@ -74,6 +74,10 @@ public class ConnectionForm extends Form {
         psep.setFixedSize(100, 20);
         addLast(psep);
         addLast(advancedFrame);
+
+        Panel psep2=new Panel();
+        psep2.setFixedSize(100, 30);
+        addLast(psep2);
         advancedFrame.setBorder(Frame.EDGE_RAISED, 2);
         okButton.setAction("OK");
         okButton.setPreferredSize(75, 25);

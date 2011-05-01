@@ -13,7 +13,7 @@ import java.util.Random;
  * @author JPEXS
  */
 public class Graph extends Panel {
-
+    
     private int borderwidth = 20;
     private int itemHeight = 10;
     private int graphData[] = new int[512];
