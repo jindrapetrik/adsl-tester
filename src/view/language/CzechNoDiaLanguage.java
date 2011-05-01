@@ -64,5 +64,12 @@ public class CzechNoDiaLanguage extends Language {
 
         loggingIn="Prihlasuji...";
 
+        carrier="Nosna";
+        bits="Bitu";
+        frequency="Frekvence";
+        graphFreq="frek.";
+        graphCar="nos.";
+        graphBits="bity";
+
     }
 }

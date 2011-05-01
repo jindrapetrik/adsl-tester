@@ -90,4 +90,11 @@ public class Language {
 
     public String loggingIn="Logging in...";
 
+    public String carrier="Carrier";
+    public String bits="Bits";
+    public String frequency="Frequency";
+    public String graphFreq="freq.";
+    public String graphCar="carr.";
+    public String graphBits="bits";
+
 }
