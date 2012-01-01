@@ -37,7 +37,7 @@ public class CzechLanguage extends Language {
         telnetPort = "Telnet port";
         ok = "OK";
         cancel = "Storno";
-        mainTitle = "O2 Modem tester";
+        mainTitle = "ADSL Modem tester";
         parameters = "Parametry";
         invalid = "Neplatné";
         invalidParameters = "Neplatná adresa èi port";

@@ -56,7 +56,7 @@ public class Language {
     public String telnetPort="Telnet port";
     public String ok="OK";
     public String cancel="Cancel";
-    public String mainTitle="O2 Modem tester";
+    public String mainTitle="ADSL Modem tester";
     public String parameters="Parameters";
     public String invalid="Invalid";
     public String invalidParameters="Invalid address or port";

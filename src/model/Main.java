@@ -1,11 +1,7 @@
 package model;
 
-import eve.fx.Picture;
 import eve.io.File;
-import eve.sys.Device;
-import eve.sys.ImageData;
 import eve.ui.Application;
-import eve.ui.Window;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,7 +26,7 @@ public class Main {
     private static boolean logEnabled = false;
     private static File logFile;
     private static FileOutputStream logOutputStream;
-    public static String version="2011.3";
+    public static String version="2012.1";
     public static String defaultIP="10.0.0.138";
     public static int defaultPort=23;
     public static int scanInterval=2;
@@ -53,7 +49,10 @@ public class Main {
     
 
     public static void loadConfig(){
-        File settingsFile=new File("o2tester.cfg");
+        File settingsFile=new File(File.makePath(File.getProgramDirectory(),"adsltester.cfg"));
+        if(!settingsFile.exists()){
+           settingsFile=new File(File.makePath(File.getProgramDirectory(),"o2tester.cfg"));
+        }
         if(settingsFile.exists()){
             try {
                 InputStream is = settingsFile.toReadableStream();
@@ -145,7 +144,7 @@ public class Main {
 
         loadConfig();
         try{
-        Window.defaultWindowIcon = Device.toDeviceIcon("ikona.gif");//new Picture(
+        //Window.defaultWindowIcon = Device.toDeviceIcon("ikona.gif");//new Picture(
         }catch(Exception ex){}
 
         view.Main.start();
@@ -198,7 +197,9 @@ public class Main {
             String hr = ""+cal.get(Calendar.HOUR_OF_DAY);
             if(hr.length()==1) hr="0"+hr;
             String time = hr + "_"+min;
-            logFile = new File(fixFileName(router.toString()) + "_log" + date + " " + time + ".txt");
+            String fileName=fixFileName(router.toString()) + "_log" + date + " " + time + ".txt";
+            fileName=File.makePath(File.getProgramDirectory(),fileName);            
+            logFile = new File(fileName);
             try {
                 logOutputStream = new FileOutputStream(logFile.toJavaFile());
                 String header=view.Main.language.logHeader;

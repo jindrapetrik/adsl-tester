@@ -15,7 +15,7 @@ public class Log {
 
     public static void println(String s){
         if(pw==null){
-            try {
+            try {                
                 pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(LOG_FILENAME)));
             } catch (FileNotFoundException ex) {
                 return;
