@@ -92,7 +92,7 @@ public class DesktopView extends View{
     public MeasuredRouter getRouter() {
         return connectionForm.getRouter();
     }
-
+        
     @Override
     public void hideConfig() {
         connectionForm.close(0);

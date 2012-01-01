@@ -90,6 +90,6 @@ public class StatusDisplay extends Frame{
         repaint();
     }
 
-
+    
 
 }
