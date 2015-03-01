@@ -13,6 +13,6 @@ which can be compiled to windows EXE, linux executable and some old Windows Mobi
 
 Originally written for Telefonica O2 Czech Republic.
 
-Program connects to ASDS modem through telnet connection and displays statistic and other info.
+Program connects to ASDL modem through telnet connection and displays statistic and other info.
 
 License: GPLv3
